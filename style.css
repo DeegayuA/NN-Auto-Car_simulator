@@ -1,0 +1,106 @@
+:root {
+    /* Dark Theme (Default) */
+    --bg-main: #0a0b10;
+    --bg-sidebar: #14151f;
+    --bg-button: rgba(25, 26, 36, 0.85);
+    
+    --text-primary: #fff;
+    --text-muted: rgba(255, 255, 255, 0.7);
+    
+    --neon-magenta: #ff00aa;
+    --neon-cyan: #00ffd5;
+    --neon-yellow: #ffea00;
+    
+    --border-sidebar: rgba(255, 0, 170, 0.35);
+    --border-button: var(--neon-cyan);
+    
+    --transition-speed: 0.4s;
+}
+
+body.light-theme {
+    /* Light Theme (Modern Minimal) */
+    --bg-main: #f0f2f5;
+    /* Map area specific light bg */
+    --bg-map: #ffffff;
+    --bg-sidebar: #ffffff;
+    --bg-button: rgba(255, 255, 255, 0.95);
+    
+    --text-primary: #2d3436;
+    --text-muted: #636e72;
+    
+    --neon-magenta: #d63031;
+    --neon-cyan: #0984e3; /* More professional blue for light mode */
+    --neon-yellow: #f1c40f;
+    
+    --border-sidebar: #dfe6e9;
+    --border-button: #0984e3;
+    
+    --shadow-main: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    margin: 0;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    overflow: hidden;
+    display: flex;
+    font-family: 'Outfit', sans-serif;
+    transition: background var(--transition-speed) ease;
+}
+
+#verticalButtons {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    gap: 15px;
+}
+
+button {
+    background: var(--bg-button);
+    border: 2px solid var(--border-button);
+    border-radius: 12px;
+    padding: 14px;
+    cursor: pointer;
+    font-size: 22px;
+    transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button:hover {
+    background: var(--neon-cyan);
+    box-shadow: 0 0 25px var(--neon-cyan);
+    transform: scale(1.1);
+}
+
+.sidebar {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    background: var(--bg-sidebar);
+    border-left: 2px solid var(--border-sidebar);
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+    transition: background var(--transition-speed) ease, border var(--transition-speed) ease;
+}
+
+#brainCanvas, #radarCanvas {
+    background: var(--bg-sidebar);
+    width: 300px;
+}
+
+#radarCanvas {
+    border-top: 2px solid var(--border-sidebar);
+}
+
+#simCanvas {
+    flex-grow: 1;
+    background: var(--bg-main);
+}

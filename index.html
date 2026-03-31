@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NN-Auto-Car - Simulation</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <canvas id="simCanvas"></canvas>
+
+    <div id="verticalButtons">
+        <button onclick="toggleTheme()" title="Toggle Light/Dark Theme">🌓</button>
+        <button onclick="saveBrain()" title="Save Optimal Neural State">💾</button>
+        <button onclick="discardBrain()" title="Wipe Neural Storage">🗑️</button>
+    </div>
+
+    <div class="sidebar">
+        <canvas id="brainCanvas"></canvas>
+        <canvas id="radarCanvas"></canvas>
+    </div>
+
+    <!-- System Utilities -->
+    <script src="utils/mathOps.js?v=2.1"></script>
+    <script src="utils/geometry.js?v=2.1"></script>
+    <script src="utils/nodeGraph.js?v=2.1"></script>
+
+    <!-- Simulation Environment -->
+    <script src="simulation/simulationWorld.js?v=2.1"></script>
+    <script src="simulation/roadMarkings.js?v=2.1"></script>
+    <script src="simulation/worldEntities.js?v=2.1"></script>
+    <script src="simulation/simulationData.js?v=2.1"></script>
+
+    <!-- Synthetic UI Components -->
+    <script src="ui/cameraTracker.js?v=2.1"></script>
+    <script src="ui/radarDisplay.js?v=2.1"></script>
+    <script src="ui/neuroVisualizer.js?v=2.1"></script>
+
+    <!-- Neural Architecture & Physics -->
+    <script src="simulation/brainModel.js?v=2.1"></script>
+    <script src="simulation/lidarArray.js?v=2.1"></script>
+    <script src="simulation/steeringModule.js?v=2.1"></script>
+    <script src="simulation/autonomousVehicle.js?v=2.1"></script>
+
+    <!-- Core Runtime -->
+    <script src="core/appEngine.js?v=2.1"></script>
+    <script src="main.js?v=2.1"></script>
+</body>
+
+</html>
