@@ -58,13 +58,11 @@ class AutonomousVehicle{
             this.#move();
             
             // ROUTE-BASED FITNESS: Use pathfinding distance along the road
-            const distFromOrigin = calcDist(this.center, new GeoPoint(this.startX, this.startY));
-            
             if (typeof routeDiscovery !== 'undefined' && routeDiscovery) {
-                const navScore = routeDiscovery.getScoreAtLocation(this.center);
-                // Use navScore if available, else fallback to physical distance from start
-                this.survivalScore = navScore > 0 ? navScore : distFromOrigin;
+                // Strictly use navScore. Driving off-map will cause score to drop/freeze, triggering elimination.
+                this.survivalScore = routeDiscovery.getScoreAtLocation(this.center);
             } else {
+                const distFromOrigin = calcDist(this.center, new GeoPoint(this.startX, this.startY));
                 this.survivalScore = distFromOrigin; 
             }
             
@@ -92,7 +90,7 @@ class AutonomousVehicle{
                 }
             }
 
-            // ZERO-VELOCITY IMMEDIATE ELIMINATION
+            // ZERO-VELOCITY & REVERSING IMMEDIATE ELIMINATION
             // 0.5 speed = 5.0 km/h on UI. If it's crawling slower than this for 15 frames, kill it.
             if (Math.abs(this.speed) < 0.5) {
                 this.zeroSpeedCounter = (this.zeroSpeedCounter || 0) + 1;
@@ -102,6 +100,17 @@ class AutonomousVehicle{
                 }
             } else {
                 this.zeroSpeedCounter = 0;
+            }
+
+            // If driving purely in reverse for 20 frames, eliminate instantly
+            if (this.speed < -0.5) {
+                this.reverseCounter = (this.reverseCounter || 0) + 1;
+                if (this.reverseCounter > 20) {
+                    this.damaged = true;
+                    this.isStagnant = true;
+                }
+            } else {
+                this.reverseCounter = 0;
             }
 
             // ULTRA-FAST STUCK DETECTION (Every 30 frames)
