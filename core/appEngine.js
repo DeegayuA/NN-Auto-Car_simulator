@@ -141,11 +141,31 @@ function runSimLoop(time) {
     for (let i = 0; i < roadTraffic.length; i++) {
         roadTraffic[i].update(roadBorders, []);
     }
-    
+    // PERFORMANCE OPTIMIZATION: Engine-Level Spatial Pruning
+    // Only pass road borders that are near the swarm (800px radius) to the physics and sensor engines
+    let activeBorders = roadBorders;
+    if (leadVehicle && roadBorders.length > 0) {
+        const cullDistSq = 800 * 800; // 800px radius squared
+        // Use standard Math.pow or basic multiplication for fast distance check
+        activeBorders = roadBorders.filter(b => {
+            const dx1 = leadVehicle.center.x - b.p1.x;
+            const dy1 = leadVehicle.center.y - b.p1.y;
+            const dx2 = leadVehicle.center.x - b.p2.x;
+            const dy2 = leadVehicle.center.y - b.p2.y;
+            return (dx1*dx1 + dy1*dy1) < cullDistSq || (dx2*dx2 + dy2*dy2) < cullDistSq;
+        });
+    }
+
     let allDamaged = true;
     for (let i = 0; i < swarm.length; i++) {
-        swarm[i].update(roadBorders, roadTraffic);
-        if (!swarm[i].damaged) allDamaged = false;
+        // PERFORMANCE OPTIMIZATION: Skip completely dead cars. 
+        // Dead cars don't need to run physics, collision, lidar, or neural networks.
+        if (!swarm[i].damaged) {
+            swarm[i].update(activeBorders, roadTraffic);
+            if (!swarm[i].damaged) {
+                allDamaged = false;
+            }
+        }
     }
     
     // 1. Identify the most successful ALIVE car (The Leader)
