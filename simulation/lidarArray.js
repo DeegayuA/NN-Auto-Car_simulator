@@ -26,12 +26,20 @@ class LidarArray{
     #calculateHit(beam,roadBorders,traffic){
         let touches=[];
 
-        for(let i=0;i<roadBorders.length;i++){
+        // OPTIMIZATION: Only check borders near the vehicle
+        const nearbyBorders = roadBorders.filter(b => {
+            const d1 = calcDistSq(this.vehicle.center, b.p1);
+            const d2 = calcDistSq(this.vehicle.center, b.p2);
+            const maxRangeSq = (this.beamLength + 100) ** 2;
+            return d1 < maxRangeSq || d2 < maxRangeSq;
+        });
+
+        for(let i=0;i<nearbyBorders.length;i++){
             const touch=calculateIntersection(
                 beam[0],
                 beam[1],
-                roadBorders[i].p1,
-                roadBorders[i].p2
+                nearbyBorders[i].p1,
+                nearbyBorders[i].p2
             );
             if(touch){
                 touches.push(touch);

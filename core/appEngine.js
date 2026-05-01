@@ -10,7 +10,8 @@ let lastGenPeak = parseFloat(localStorage.getItem("lastGenPeak")) || 0;
 let lastFitnessCheck = 0;
 let fitnessHistory = [];
 
-let globalMaxSpeed = 3;
+let globalMaxSpeed = 6;
+let generationStartBrain = null;
 
 function changeSpeed(val) {
     globalMaxSpeed = parseFloat(val);
@@ -64,13 +65,27 @@ function resetGeneration() {
     
     const storedBrain = localStorage.getItem("optimalBrain");
     if (storedBrain) {
-        for (let i = 0; i < swarm.length; i++) {
-            swarm[i].brain = JSON.parse(storedBrain);
-            if (i !== 0) {
-                const rate = i % 5 === 0 ? 0.5 : 0.15; 
-                BrainArchitecture.mutateBrain(swarm[i].brain, rate);
+        let parsedBrain = JSON.parse(storedBrain);
+        
+        // Architecture Check: Ensure the loaded brain matches the new topology
+        if (parsedBrain.levels && parsedBrain.levels.length === swarm[0].brain.levels.length) {
+            generationStartBrain = parsedBrain;
+            for (let i = 0; i < swarm.length; i++) {
+                swarm[i].brain = JSON.parse(storedBrain);
+                if (i !== 0) {
+                    const rate = i % 5 === 0 ? 0.5 : 0.15; 
+                    BrainArchitecture.mutateBrain(swarm[i].brain, rate);
+                }
             }
+        } else {
+            console.log("ARCHITECTURE CHANGE DETECTED: Clearing old brain.");
+            localStorage.removeItem("optimalBrain");
+            localStorage.setItem("generationCount", 1);
+            generationCount = 1;
+            generationStartBrain = JSON.parse(JSON.stringify(swarm[0].brain));
         }
+    } else {
+        generationStartBrain = JSON.parse(JSON.stringify(swarm[0].brain));
     }
     
     leadVehicle = swarm[0];
@@ -133,39 +148,32 @@ function runSimLoop(time) {
         if (!swarm[i].damaged) allDamaged = false;
     }
     
-    // LOOP & STAGNATION DETECTION (2-Second Window)
-    if (leadVehicle) {
-        fitnessHistory.push(leadVehicle.survivalScore);
-        if (fitnessHistory.length > 72) { // Faster window: ~1.2 seconds
-            const pastScore = fitnessHistory.shift();
-            const currentScore = leadVehicle.survivalScore;
-            
-            if (Math.abs(currentScore - pastScore) < 80) { // Slightly tighter buffer
-                stuckTimer++;
-            } else {
-                stuckTimer = 0;
-            }
-        }
-    }
-
-    if (allDamaged || stuckTimer > 10) { 
-        resetGeneration();
-        return requestAnimationFrame(runSimLoop);
-    }
-
+    // 1. Identify the most successful ALIVE car (The Leader)
     const survivingVehicles = swarm.filter(v => !v.damaged);
     if (survivingVehicles.length > 0) {
-        leadVehicle = survivingVehicles.find(
-            (v) => v.survivalScore === Math.max(...survivingVehicles.map((vehicle) => vehicle.survivalScore))
-        );
+        // Find car with highest fitness among SURVIVORS
+        leadVehicle = survivingVehicles.reduce((best, car) => 
+            (car.survivalScore > best.survivalScore) ? car : best, survivingVehicles[0]);
     } else {
-        leadVehicle = swarm.find(
-            (v) => v.survivalScore === Math.max(...swarm.map((vehicle) => vehicle.survivalScore))
-        );
+        // If all are dead, follow the one that went furthest before dying
+        leadVehicle = swarm.reduce((best, car) => 
+            (car.survivalScore > best.survivalScore) ? car : best, swarm[0]);
     }
 
     simulationMap.cars = swarm;
     simulationMap.bestCar = leadVehicle;
+
+    // Real-time Peak Fitness Update
+    if (leadVehicle && leadVehicle.survivalScore > peakFitness) {
+        peakFitness = leadVehicle.survivalScore;
+        localStorage.setItem("peakFitness", peakFitness);
+    }
+
+    // 2. Swarm Death Check (only reset if the WHOLE swarm is gone or the LEADER is stagnant)
+    if (allDamaged) {
+        resetGeneration();
+        return requestAnimationFrame(runSimLoop);
+    }
 
     if (leadVehicle) {
         camera.offset.x = -leadVehicle.center.x;
@@ -183,7 +191,13 @@ function runSimLoop(time) {
     if (leadVehicle) {
         brainCtx.lineDashOffset = -time / 50;
         brainCtx.clearRect(0, 0, brainCanvas.width, brainCanvas.height);
-        NeuroVisualizer.drawNetwork(brainCtx, leadVehicle.brain);
+        
+        // If this is the very first frame before resetGeneration, set a default
+        if (!generationStartBrain && swarm[0]) {
+            generationStartBrain = JSON.parse(JSON.stringify(swarm[0].brain));
+        }
+
+        NeuroVisualizer.drawNetwork(brainCtx, leadVehicle.brain, generationStartBrain);
     }
     
     updateMetricsUI();

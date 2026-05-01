@@ -61,8 +61,8 @@
             <div class="card-body">
                 <div class="metric">
                     <span class="label">Swarm Max Speed</span>
-                    <input type="range" id="speed-slider" min="1" max="10" step="1" value="3" oninput="changeSpeed(this.value)">
-                    <span id="speed-val" class="value">30.0 km/h</span>
+                    <input type="range" id="speed-slider" min="1" max="10" step="1" value="6" oninput="changeSpeed(this.value)">
+                    <span id="speed-val" class="value">60.0 km/h</span>
                 </div>
             </div>
         </div>
@@ -120,6 +120,7 @@
     <script src="utils/nodeGraph.js?v=2.1"></script>
 
     <!-- Simulation Environment -->
+    <script src="utils/pathfinder.js?v=2.1"></script>
     <script src="simulation/simulationWorld.js?v=2.1"></script>
     <script src="simulation/roadMarkings.js?v=2.1"></script>
     <script src="simulation/worldEntities.js?v=2.1"></script>

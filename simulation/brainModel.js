@@ -18,20 +18,33 @@ class BrainArchitecture{
         return outputs;
     }
 
-    static mutateBrain(network,amount=1){
+    static mutateBrain(network, amount = 1) {
         network.levels.forEach(level => {
-            for(let i=0;i<level.biases.length;i++){
-                level.biases[i] += (Math.random()*2-1)*amount;
-                // Keep biases in a healthy learning range
-                if(level.biases[i]>2) level.biases[i]=2;
-                if(level.biases[i]<-2) level.biases[i]=-2;
+            for (let i = 0; i < level.biases.length; i++) {
+                // Probabilistic bias mutation
+                if (Math.random() < amount) {
+                    level.biases[i] += (Math.random() * 2 - 1) * 0.5;
+                    // Keep biases in a healthy learning range
+                    if (level.biases[i] > 2) level.biases[i] = 2;
+                    if (level.biases[i] < -2) level.biases[i] = -2;
+                }
             }
-            for(let i=0;i<level.weights.length;i++){
-                for(let j=0;j<level.weights[i].length;j++){
-                    level.weights[i][j] += (Math.random()*2-1)*amount;
-                    // Weights can grow as they learn
-                    if(level.weights[i][j]>5) level.weights[i][j]=5;
-                    if(level.weights[i][j]<-5) level.weights[i][j]=-5;
+            for (let i = 0; i < level.weights.length; i++) {
+                for (let j = 0; j < level.weights[i].length; j++) {
+                    // Probabilistic weight mutation
+                    if (Math.random() < amount) {
+                        // 10% chance to completely randomize a connection (explore)
+                        if (Math.random() < 0.1) {
+                            level.weights[i][j] = (Math.random() * 2 - 1) * 2;
+                        } else {
+                            // Tweak existing weight (exploit)
+                            level.weights[i][j] += (Math.random() * 2 - 1) * 0.5;
+                        }
+                        
+                        // Weights can grow as they learn
+                        if (level.weights[i][j] > 5) level.weights[i][j] = 5;
+                        if (level.weights[i][j] < -5) level.weights[i][j] = -5;
+                    }
                 }
             }
         });

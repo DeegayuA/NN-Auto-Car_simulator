@@ -1,5 +1,5 @@
 class NeuroVisualizer {
-    static drawNetwork(ctx, network) {
+    static drawNetwork(ctx, network, baseNetwork = null) {
         const margin = 50;
         const left = margin;
         const width = ctx.canvas.width - margin * 2;
@@ -15,7 +15,8 @@ class NeuroVisualizer {
             
             // Hidden layers are much more subtle to focus on Input/Output
             const opacityMultiplier = isHidden ? 0.2 : 1.0;
-            NeuroVisualizer.drawSynapses(ctx, network.levels[i], left, layerTop, width, layerHeight, opacityMultiplier);
+            const baseLayer = baseNetwork ? baseNetwork.levels[i] : null;
+            NeuroVisualizer.drawSynapses(ctx, network.levels[i], left, layerTop, width, layerHeight, opacityMultiplier, baseLayer);
         }
 
         for (let i = 0; i < network.levels.length; i++) {
@@ -32,7 +33,7 @@ class NeuroVisualizer {
         }
     }
 
-    static drawSynapses(ctx, layer, left, top, width, height, opacityMultiplier) {
+    static drawSynapses(ctx, layer, left, top, width, height, opacityMultiplier, baseLayer = null) {
         const right = left + width;
         const bottom = top + height;
         const { inputs, outputs, weights } = layer;
@@ -41,26 +42,33 @@ class NeuroVisualizer {
         for (let i = 0; i < inputs.length; i++) {
             for (let j = 0; j < outputs.length; j++) {
                 const weight = weights[i][j];
-                const absWeight = Math.abs(weight);
+                const baseWeight = baseLayer ? baseLayer.weights[i][j] : 0;
+                
+                // Show learning: The delta between current weight and start-of-generation weight
+                const learningDelta = weight - baseWeight;
+                const absDelta = Math.abs(learningDelta);
+                const absBase = Math.abs(baseWeight);
+                
+                // To show previous gen structure thinly (divided by 10) + this gen's learning dynamically
+                const visualWeight = (absBase * 0.1) + absDelta;
                 
                 // Ignore very weak connections to reduce visual clutter
-                if (absWeight < 0.05) continue;
+                if (visualWeight < 0.02) continue;
 
                 const x1 = NeuroVisualizer.#getNodeX(inputs, i, left, right);
                 const x2 = NeuroVisualizer.#getNodeX(outputs, j, left, right);
 
-                // High-visibility dynamic line width based on weight
-                // Scaling is more aggressive now for "easy to see" weights
-                ctx.lineWidth = 1 + Math.pow(absWeight, 2) * 8; 
+                // Linear scaling capped at a maximum thickness so lines never become massive blobs
+                ctx.lineWidth = 0.5 + Math.min(6, visualWeight * 4); 
                 
                 ctx.beginPath();
                 ctx.moveTo(x1, bottom);
                 ctx.lineTo(x2, top);
                 
-                const baseOpacity = 0.15 + absWeight * 0.6;
-                const opacity = baseOpacity * opacityMultiplier;
+                const baseOpacity = 0.2 + visualWeight * 0.8;
+                const opacity = Math.min(1, baseOpacity * opacityMultiplier);
                 
-                // Positive = Cyan, Negative = Magenta
+                // Positive = Cyan, Negative = Magenta. Color determined by the new weight state.
                 ctx.strokeStyle = weight > 0 ? `rgba(0, 255, 213, ${opacity})` : `rgba(255, 0, 170, ${opacity})`;
                 ctx.stroke();
             }

@@ -29,7 +29,7 @@ const simCtx = simCanvas.getContext("2d");
 const brainCtx = brainCanvas.getContext("2d");
 
 // Global objects
-let camera, radar, swarm, leadVehicle, roadBorders;
+let camera, radar, swarm, leadVehicle, roadBorders, routeDiscovery;
 const roadTraffic = [];
 
 // Theme Management
@@ -105,6 +105,13 @@ function initSimulation() {
     
     camera = new CameraTracker(simCanvas, defaultZoom, defaultOffset);
     radar = new RadarDisplay(radarCanvas, simulationMap.graph, radarCanvas.width, radarCanvas.height);
+
+    // Initialize Intelligence Layer
+    routeDiscovery = new RouteDiscovery(simulationMap.graph);
+    const startNodes = simulationMap.markings.filter((m) => m.type == "start");
+    // Fallback to graph[0] if no start marking exists
+    const startPoint = startNodes.length > 0 ? startNodes[0].center : (simulationMap.graph.points[0] || new GeoPoint(100, 100));
+    routeDiscovery.calculateDistances(startPoint);
 
     const POPULATION_SIZE = 100;
     swarm = spawnVehicles(POPULATION_SIZE);

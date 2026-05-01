@@ -16,12 +16,21 @@ class AutonomousVehicle{
         this.survivalScore = 0;
         this.maxForwardDisplacement = 0;
 
+        // Optimized Background Stuck Detection
+        this.fitnessHistory = [];
+        this.stuckCheckCounter = 0;
+        this.isStagnant = false;
+
+        // Velocity Oscillation Detection (forward/backward loop)
+        this.velocitySignHistory = [];
+        this.oscillationCounter = 0;
+
         this.hasAI=controlType=="AI";
 
         if(controlType!="DUMMY"){
             this.lidar=new LidarArray(this);
             this.brain=new BrainArchitecture(
-                [this.lidar.beamCount,8,4] 
+                [this.lidar.beamCount,12,10,4] 
             );
         }
         this.steering=new SteeringModule(controlType);
@@ -48,20 +57,77 @@ class AutonomousVehicle{
         if(!this.damaged){
             this.#move();
             
-            // DISPLACEMENT-BASED FITNESS: No reward for forward/backward looping
-            // We calculate how far the car has traveled from its start point in the map's forward direction
-            const dist = calcDist(this.center, new GeoPoint(this.startX, this.startY));
+            // ROUTE-BASED FITNESS: Use pathfinding distance along the road
+            const distFromOrigin = calcDist(this.center, new GeoPoint(this.startX, this.startY));
             
-            // Reverse penalty: If speed is negative, survivalScore decreases
-            this.survivalScore += this.speed; 
+            if (typeof routeDiscovery !== 'undefined' && routeDiscovery) {
+                const navScore = routeDiscovery.getScoreAtLocation(this.center);
+                // Use navScore if available, else fallback to physical distance from start
+                this.survivalScore = navScore > 0 ? navScore : distFromOrigin;
+            } else {
+                this.survivalScore = distFromOrigin; 
+            }
             
-            // Tracking peak progress to reward actual advancement
+            // Tracking peak progress
             if(this.survivalScore > this.maxForwardDisplacement){
                 this.maxForwardDisplacement = this.survivalScore;
             }
 
+            // VELOCITY OSCILLATION DETECTION: +/-/+/- means looping
+            const currentSign = this.speed > 0.1 ? 1 : (this.speed < -0.1 ? -1 : 0);
+            if (currentSign !== 0) {
+                this.velocitySignHistory.push(currentSign);
+                if (this.velocitySignHistory.length > 20) this.velocitySignHistory.shift();
+
+                if (this.velocitySignHistory.length >= 8) {
+                    let signChanges = 0;
+                    for (let k = 1; k < this.velocitySignHistory.length; k++) {
+                        if (this.velocitySignHistory[k] !== this.velocitySignHistory[k-1]) signChanges++;
+                    }
+                    // 4+ sign changes in 20 frames = oscillating
+                    if (signChanges >= 4) {
+                        this.damaged = true;
+                        this.isStagnant = true;
+                    }
+                }
+            }
+
+            // ZERO-VELOCITY IMMEDIATE ELIMINATION
+            // 0.5 speed = 5.0 km/h on UI. If it's crawling slower than this for 15 frames, kill it.
+            if (Math.abs(this.speed) < 0.5) {
+                this.zeroSpeedCounter = (this.zeroSpeedCounter || 0) + 1;
+                if (this.zeroSpeedCounter > 15) {
+                    this.damaged = true;
+                    this.isStagnant = true;
+                }
+            } else {
+                this.zeroSpeedCounter = 0;
+            }
+
+            // ULTRA-FAST STUCK DETECTION (Every 30 frames)
+            this.stuckCheckCounter++;
+            if (this.stuckCheckCounter >= 30) { 
+                this.stuckCheckCounter = 0;
+                
+                this.fitnessHistory.push(this.survivalScore);
+                
+                if (this.fitnessHistory.length > 2) { 
+                    const pastScore = this.fitnessHistory.shift();
+                    // PROGRESS CHECK: Must make strictly positive forward progress (> 15 units in 0.5s)
+                    const progressMade = this.survivalScore - pastScore;
+                    if (progressMade < 15) {
+                        this.damaged = true; 
+                        this.isStagnant = true;
+                    }
+                }
+            }
+
             this.polygon=this.#createPolygon();
-            this.damaged=this.#assessDamage(roadBorders,traffic);
+            
+            // Only check for new collision damage if not already damaged by stuck/loop detection
+            if (!this.damaged) {
+                this.damaged=this.#assessDamage(roadBorders,traffic);
+            }
         }
         if(this.lidar){
             this.lidar.scanEnvironment(roadBorders,traffic);
