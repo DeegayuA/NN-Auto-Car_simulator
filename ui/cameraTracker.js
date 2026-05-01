@@ -18,6 +18,10 @@ class CameraTracker {
       this.#addEventListeners();
    }
 
+   resize() {
+      this.center = new GeoPoint(this.canvas.width / 2, this.canvas.height / 2);
+   }
+
    reset() {
       this.ctx.restore();
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

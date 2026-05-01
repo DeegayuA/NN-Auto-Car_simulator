@@ -21,19 +21,17 @@ class BrainArchitecture{
     static mutateBrain(network,amount=1){
         network.levels.forEach(level => {
             for(let i=0;i<level.biases.length;i++){
-                level.biases[i]=linearInterpolation(
-                    level.biases[i],
-                    Math.random()*2-1,
-                    amount
-                )
+                level.biases[i] += (Math.random()*2-1)*amount;
+                // Keep biases in a healthy learning range
+                if(level.biases[i]>2) level.biases[i]=2;
+                if(level.biases[i]<-2) level.biases[i]=-2;
             }
             for(let i=0;i<level.weights.length;i++){
                 for(let j=0;j<level.weights[i].length;j++){
-                    level.weights[i][j]=linearInterpolation(
-                        level.weights[i][j],
-                        Math.random()*2-1,
-                        amount
-                    )
+                    level.weights[i][j] += (Math.random()*2-1)*amount;
+                    // Weights can grow as they learn
+                    if(level.weights[i][j]>5) level.weights[i][j]=5;
+                    if(level.weights[i][j]<-5) level.weights[i][j]=-5;
                 }
             }
         });
@@ -55,14 +53,15 @@ class SynapseLevel{
     }
 
     static #randomize(level){
+        // Initialize with very small weights so lines are THIN at Gen 1
         for(let i=0;i<level.inputs.length;i++){
             for(let j=0;j<level.outputs.length;j++){
-                level.weights[i][j]=Math.random()*2-1;
+                level.weights[i][j]=(Math.random()*2-1) * 0.1;
             }
         }
 
         for(let i=0;i<level.biases.length;i++){
-            level.biases[i]=Math.random()*2-1;
+            level.biases[i]=(Math.random()*2-1) * 0.1;
         }
     }
 
@@ -77,11 +76,9 @@ class SynapseLevel{
                 sum+=level.inputs[j]*level.weights[j][i];
             }
 
-            if(sum>level.biases[i]){
-                level.outputs[i]=1;
-            }else{
-                level.outputs[i]=0;
-            } 
+            // Sigmoid threshold for steering sensitivity
+            const sigmoid = 1 / (1 + Math.exp(-(sum + level.biases[i])));
+            level.outputs[i] = sigmoid > 0.5 ? 1 : 0;
         }
 
         return level.outputs;

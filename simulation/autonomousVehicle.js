@@ -1,5 +1,7 @@
 class AutonomousVehicle{
     constructor(x,y,width,height,controlType,angle=0,maxSpeed=3,color="#00ffd5"){
+        this.startX = x;
+        this.startY = y;
         this.center = new GeoPoint(x,y);
         this.width=width;
         this.height=height;
@@ -12,13 +14,14 @@ class AutonomousVehicle{
         this.damaged=false;
 
         this.survivalScore = 0;
+        this.maxForwardDisplacement = 0;
 
         this.hasAI=controlType=="AI";
 
         if(controlType!="DUMMY"){
             this.lidar=new LidarArray(this);
             this.brain=new BrainArchitecture(
-                [this.lidar.beamCount,6,4]
+                [this.lidar.beamCount,8,4] 
             );
         }
         this.steering=new SteeringModule(controlType);
@@ -44,7 +47,19 @@ class AutonomousVehicle{
     update(roadBorders,traffic){
         if(!this.damaged){
             this.#move();
-            this.survivalScore += this.speed;
+            
+            // DISPLACEMENT-BASED FITNESS: No reward for forward/backward looping
+            // We calculate how far the car has traveled from its start point in the map's forward direction
+            const dist = calcDist(this.center, new GeoPoint(this.startX, this.startY));
+            
+            // Reverse penalty: If speed is negative, survivalScore decreases
+            this.survivalScore += this.speed; 
+            
+            // Tracking peak progress to reward actual advancement
+            if(this.survivalScore > this.maxForwardDisplacement){
+                this.maxForwardDisplacement = this.survivalScore;
+            }
+
             this.polygon=this.#createPolygon();
             this.damaged=this.#assessDamage(roadBorders,traffic);
         }
@@ -56,10 +71,18 @@ class AutonomousVehicle{
             const outputs=BrainArchitecture.processSignals(offsets,this.brain);
 
             if(this.hasAI){
-                this.steering.forward=outputs[0];
-                this.steering.left=outputs[1];
-                this.steering.right=outputs[2];
-                this.steering.reverse=outputs[3];
+                let fwd = outputs[0];
+                let lft = outputs[1];
+                let rgt = outputs[2];
+                let rev = outputs[3];
+
+                if (lft && rgt) { lft = 0; rgt = 0; }
+                if (fwd && rev) { rev = 0; } 
+
+                this.steering.forward = fwd;
+                this.steering.left = lft;
+                this.steering.right = rgt;
+                this.steering.reverse = rev;
             }
         }
     }
@@ -129,10 +152,10 @@ class AutonomousVehicle{
         if(this.speed!=0){
             const flip=this.speed>0?1:-1;
             if(this.steering.left){
-                this.angle+=0.03*flip;
+                this.angle+=0.07*flip; 
             }
             if(this.steering.right){
-                this.angle-=0.03*flip;
+                this.angle-=0.07*flip;
             }
         }
 
@@ -140,7 +163,7 @@ class AutonomousVehicle{
         this.center.y-=Math.cos(this.angle)*this.speed;
     }
 
-    draw(ctx,drawLidar=false){
+    draw(ctx, drawLidar=false, isLead=false){
         if(this.lidar && drawLidar){
             this.lidar.draw(ctx);
         }
@@ -148,19 +171,32 @@ class AutonomousVehicle{
         ctx.save();
         ctx.translate(this.center.x,this.center.y);
         ctx.rotate(-this.angle);
-        if(!this.damaged){
-            ctx.drawImage(this.mask,
+        
+        if(!isLead){
+            ctx.fillStyle = this.damaged ? "rgba(255, 0, 170, 0.4)" : "rgba(0, 255, 213, 0.25)";
+            ctx.beginPath();
+            ctx.rect(-this.width/2, -this.height/2, this.width, this.height);
+            ctx.fill();
+            if(!this.damaged) {
+                ctx.strokeStyle = "rgba(0, 255, 213, 0.5)";
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        } else {
+            if(!this.damaged){
+                ctx.drawImage(this.mask,
+                    -this.width/2,
+                    -this.height/2,
+                    this.width,
+                    this.height);
+                ctx.globalCompositeOperation="multiply";
+            }
+            ctx.drawImage(this.img,
                 -this.width/2,
                 -this.height/2,
                 this.width,
                 this.height);
-            ctx.globalCompositeOperation="multiply";
         }
-        ctx.drawImage(this.img,
-            -this.width/2,
-            -this.height/2,
-            this.width,
-            this.height);
         ctx.restore();
     }
 }

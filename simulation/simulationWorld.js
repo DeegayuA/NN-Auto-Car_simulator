@@ -256,8 +256,8 @@ class SimulationWorld {
          );
          const greenYellowState =
             cTick % (greenDuration + yellowDuration) < greenDuration
-               ? "green"
-               : "yellow";
+               ? "yellow"
+               : "green"; // Fixed logic
          for (let i = 0; i < center.lights.length; i++) {
             if (i == greenYellowIndex) {
                center.lights[i].state = greenYellowState;
@@ -273,20 +273,14 @@ class SimulationWorld {
        if (!viewPoint) return;
        this.#updateTrafficLights();
  
-       // THEME AWARE COLORS
        const mainColor = getThemeColor("--neon-cyan");
-       const bgColor = getThemeColor("--bg-main");
-       const gridOpacityFactor = isDarkTheme ? 1 : 0.6;
- 
-       // Draw Dynamic Background Grid
-       ctx.save();
        const gridSize = 200;
        const startX = Math.floor((viewPoint.x - renderRadius) / gridSize) * gridSize;
        const startY = Math.floor((viewPoint.y - renderRadius) / gridSize) * gridSize;
        
+       ctx.save();
        if (isDarkTheme) {
-          // Dark Theme: Multi-layer neon glow
-          ctx.strokeStyle = mainColor + "26"; // 15% opacity
+          ctx.strokeStyle = mainColor + "26";
           ctx.lineWidth = 10;
           for (let x = startX; x < viewPoint.x + renderRadius; x += gridSize) {
              ctx.beginPath(); ctx.moveTo(x, viewPoint.y - renderRadius); ctx.lineTo(x, viewPoint.y + renderRadius); ctx.stroke();
@@ -295,9 +289,8 @@ class SimulationWorld {
              ctx.beginPath(); ctx.moveTo(viewPoint.x - renderRadius, y); ctx.lineTo(viewPoint.x + renderRadius, y); ctx.stroke();
           }
        }
- 
-       // Primary Grid
-       ctx.strokeStyle = mainColor + (isDarkTheme ? "B3" : "4D"); // 70% vs 30%
+
+       ctx.strokeStyle = mainColor + (isDarkTheme ? "B3" : "4D");
        ctx.lineWidth = isDarkTheme ? 2 : 1;
        for (let x = startX; x < viewPoint.x + renderRadius; x += gridSize) {
           ctx.beginPath(); ctx.moveTo(x, viewPoint.y - renderRadius); ctx.lineTo(x, viewPoint.y + renderRadius); ctx.stroke();
@@ -306,13 +299,12 @@ class SimulationWorld {
           ctx.beginPath(); ctx.moveTo(viewPoint.x - renderRadius, y); ctx.lineTo(viewPoint.x + renderRadius, y); ctx.stroke();
        }
        ctx.restore();
- 
+
        for (const seg of this.graph.segments) {
           seg.draw(ctx, { color: mainColor + "66", width: 4, dash: [10, 10] });
        }
- 
+
        for (const env of this.envelopes) {
-          // Road fill adapts to background
           const roadFill = isDarkTheme ? "rgba(15, 16, 22, 0.95)" : "rgba(220, 225, 230, 0.95)";
           env.draw(ctx, { fill: roadFill });
        }
@@ -322,30 +314,33 @@ class SimulationWorld {
              marking.draw(ctx);
           }
        }
- 
+
        for (const border of this.roadBorders) {
           border.draw(ctx, { color: mainColor, width: 5 });
        }
 
-      ctx.globalAlpha = 0.2;
-      for (const car of this.cars) {
-         car.draw(ctx);
-      }
-      ctx.globalAlpha = 1;
-      if(this.bestCar) {
-         this.bestCar.draw(ctx, true);
-      }
+       // Optimized swarm drawing: Draw all BOXES first
+       for (const car of this.cars) {
+          if (car !== this.bestCar) {
+             car.draw(ctx, false, false);
+          }
+       }
 
-      const items = [...this.buildings, ...this.trees].filter(
-         (i) => i.base.distanceToGeoPoint(viewPoint) < renderRadius
-      );
-      items.sort(
-         (a, b) =>
-            b.base.distanceToGeoPoint(viewPoint) -
-            a.base.distanceToGeoPoint(viewPoint)
-      );
-      for (const item of items) {
-         item.draw(ctx, viewPoint);
-      }
-   }
+       // Draw Lead Car LAST so it's always on top
+       if(this.bestCar) {
+          this.bestCar.draw(ctx, true, true);
+       }
+
+       const items = [...this.buildings, ...this.trees].filter(
+          (i) => i.base.distanceToGeoPoint(viewPoint) < renderRadius
+       );
+       items.sort(
+          (a, b) =>
+             b.base.distanceToGeoPoint(viewPoint) -
+             a.base.distanceToGeoPoint(viewPoint)
+       );
+       for (const item of items) {
+          item.draw(ctx, viewPoint);
+       }
+    }
 }

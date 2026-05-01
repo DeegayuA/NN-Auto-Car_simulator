@@ -22,21 +22,13 @@ window.onerror = function(msg, url, lineNo, columnNo, error) {
  */
 
 const simCanvas = document.getElementById("simCanvas");
-simCanvas.width = window.innerWidth - 330;
-simCanvas.height = window.innerHeight;
-
 const brainCanvas = document.getElementById("brainCanvas");
-brainCanvas.width = 300;
-brainCanvas.height = window.innerHeight - 300;
-
 const radarCanvas = document.getElementById("radarCanvas");
-radarCanvas.width = 300;
-radarCanvas.height = 300;
 
 const simCtx = simCanvas.getContext("2d");
 const brainCtx = brainCanvas.getContext("2d");
 
-// Global objects (initialized in other scripts or during init)
+// Global objects
 let camera, radar, swarm, leadVehicle, roadBorders;
 const roadTraffic = [];
 
@@ -48,52 +40,83 @@ function toggleTheme() {
     isDarkTheme = !isDarkTheme;
     document.body.classList.toggle("light-theme", !isDarkTheme);
     localStorage.setItem("simTheme", isDarkTheme ? "dark" : "light");
-    console.log("Theme switched to:", isDarkTheme ? "Dark" : "Light");
 }
 
 function getThemeColor(varName) {
     return getComputedStyle(document.body).getPropertyValue(varName).trim();
 }
 
+// Window Management
+function toggleWindow(id) {
+    const win = document.getElementById(id);
+    const toggleBtn = document.getElementById(id.split('-')[0] + '-toggle');
+    
+    if (win.classList.contains('visible')) {
+        win.style.display = 'none';
+        win.classList.remove('visible');
+        if (toggleBtn) toggleBtn.classList.remove('active');
+    } else {
+        win.style.display = 'flex';
+        win.classList.add('visible');
+        if (toggleBtn) toggleBtn.classList.add('active');
+        setTimeout(handleResize, 100);
+    }
+}
+
+function handleResize() {
+    simCanvas.width = window.innerWidth;
+    simCanvas.height = window.innerHeight;
+    
+    const rCont = radarCanvas.parentElement;
+    if (rCont && rCont.clientWidth > 0) {
+        radarCanvas.width = rCont.clientWidth;
+        radarCanvas.height = rCont.clientHeight;
+    }
+    
+    const bCont = brainCanvas.parentElement;
+    if (bCont && bCont.clientWidth > 0) {
+        brainCanvas.width = bCont.clientWidth;
+        brainCanvas.height = bCont.clientHeight;
+    }
+    
+    if (camera) camera.resize();
+    if (radar) radar.resize(radarCanvas.width, radarCanvas.height);
+}
+
+window.addEventListener('resize', handleResize);
+
 function initSimulation() {
     console.log("INITIALIZING NEON SIMULATION...");
-    // Sync UI to initial theme
+    
+    handleResize();
     document.body.classList.toggle("light-theme", !isDarkTheme);
 
-    // simulationMap is already defined in simulationData.js as a global const
     if (typeof simulationMap === 'undefined') {
-        const errorMsg = "simulationMap is missing. Ensure simulationData.js is loaded correctly.";
+        const errorMsg = "simulationMap is missing.";
         console.error(errorMsg);
         throw new Error(errorMsg);
     }
     
-    console.log("Map detected. Success.");
     roadTraffic.length = 0;
     roadBorders = simulationMap.roadBorders;
 
-    // Initialization of trackers with robust defaults
     const defaultZoom = simulationMap.zoom || 1;
     const defaultOffset = simulationMap.offset || { x: 0, y: 0 };
     
-    console.log("Setting up camera with zoom:", defaultZoom, "offset:", defaultOffset);
     camera = new CameraTracker(simCanvas, defaultZoom, defaultOffset);
-    radar = new RadarDisplay(radarCanvas, simulationMap.graph, 300);
+    radar = new RadarDisplay(radarCanvas, simulationMap.graph, radarCanvas.width, radarCanvas.height);
 
-    // Population Spawn
     const POPULATION_SIZE = 100;
-    console.log("Spawning swarm of size:", POPULATION_SIZE);
     swarm = spawnVehicles(POPULATION_SIZE);
 
     if (!swarm || swarm.length === 0) {
-        throw new Error("Swarm failed to spawn. No entities detected.");
+        throw new Error("Swarm failed to spawn.");
     }
 
     leadVehicle = swarm[0];
-    console.log("Lead vehicle at:", leadVehicle.center.x, leadVehicle.center.y);
 
     const storedBrain = localStorage.getItem("optimalBrain");
     if (storedBrain) {
-        console.log("Applying stored neural state...");
         for (let i = 0; i < swarm.length; i++) {
             try {
                 swarm[i].brain = JSON.parse(storedBrain);
@@ -101,12 +124,11 @@ function initSimulation() {
                     BrainArchitecture.mutateBrain(swarm[i].brain, 0.1);
                 }
             } catch (e) {
-                console.warn("Stored brain corrupted, using default.");
+                console.warn("Stored brain corrupted.");
             }
         }
     }
 
-    console.log("Simulation loop starting...");
     requestAnimationFrame(runSimLoop);
 }
 
@@ -117,9 +139,14 @@ function saveBrain() {
     }
 }
 
+// FULL RESET: Wipes all evolutionary history and learned data
 function discardBrain() {
     localStorage.removeItem("optimalBrain");
-    console.log("Neural state wiped.");
+    localStorage.removeItem("generationCount");
+    localStorage.removeItem("peakFitness");
+    localStorage.removeItem("lastGenPeak");
+    
+    console.log("FACTORY RESET: All evolutionary data purged.");
     location.reload();
 }
 

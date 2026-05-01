@@ -2,7 +2,7 @@ class LidarArray{
     constructor(vehicle){
         this.vehicle=vehicle;
         this.beamCount=5;
-        this.beamLength=150;
+        this.beamLength=220; // Increased range for better turn anticipation
         this.beamSpread=Math.PI/2;
 
         this.beams=[];
@@ -81,7 +81,10 @@ class LidarArray{
     }
 
     draw(ctx){
+        if(!this.beams || this.beams.length === 0) return;
+        
         for(let i=0;i<this.beamCount;i++){
+            if (!this.beams[i]) continue;
             let end=this.beams[i][1];
             if(this.returns[i]){
                 end=this.returns[i];
@@ -89,7 +92,7 @@ class LidarArray{
 
             ctx.beginPath();
             ctx.lineWidth=2;
-            ctx.strokeStyle="#ff00aa"; // Neon hit
+            ctx.strokeStyle="rgba(0, 255, 213, 0.4)"; 
             ctx.moveTo(
                 this.beams[i][0].x,
                 this.beams[i][0].y
@@ -100,9 +103,21 @@ class LidarArray{
             );
             ctx.stroke();
 
+            if(this.returns[i]) {
+                ctx.beginPath();
+                ctx.arc(end.x, end.y, 4, 0, Math.PI * 2);
+                ctx.fillStyle = "#ff00aa";
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.arc(end.x, end.y, 8, 0, Math.PI * 2);
+                ctx.fillStyle = "rgba(255, 0, 170, 0.2)";
+                ctx.fill();
+            }
+
             ctx.beginPath();
             ctx.lineWidth=2;
-            ctx.strokeStyle="#0a0b10"; // Dark pass-through
+            ctx.strokeStyle="rgba(255, 255, 255, 0.05)"; 
             ctx.moveTo(
                 this.beams[i][1].x,
                 this.beams[i][1].y

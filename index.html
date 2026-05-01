@@ -4,25 +4,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NN-Auto-Car - Simulation</title>
+    <title>NN-Auto-Car - Simulation Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <canvas id="simCanvas"></canvas>
 
-    <div id="verticalButtons">
+    <div class="control-panel">
+        <button onclick="toggleWindow('nn-window')" id="nn-toggle" title="Neural Network Vision">🧠</button>
+        <button onclick="toggleWindow('map-window')" id="map-toggle" title="Mini Map">🗺️</button>
         <button onclick="toggleTheme()" title="Toggle Light/Dark Theme">🌓</button>
+        <button onclick="manualReset()" title="Trigger Manual Generation Reset">🔄</button>
         <button onclick="saveBrain()" title="Save Optimal Neural State">💾</button>
-        <button onclick="discardBrain()" title="Wipe Neural Storage">🗑️</button>
+        <button onclick="discardBrain()" title="Wipe Neural Storage & Full Reset">🗑️</button>
     </div>
 
-    <div class="sidebar">
-        <canvas id="brainCanvas"></canvas>
-        <canvas id="radarCanvas"></canvas>
+    <!-- HUD Sidebar (Right Side) -->
+    <div class="hud-sidebar">
+        
+        <!-- Fleet Status Card -->
+        <div class="ui-component info-card neon-border">
+            <div class="comp-header">
+                <span class="comp-title">Fleet Intelligence</span>
+            </div>
+            <div class="card-body">
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <span class="label">Generation</span>
+                        <span id="map-gen-count" class="value">1</span>
+                    </div>
+                    <div class="metric">
+                        <span class="label">Swarm Alive</span>
+                        <span id="fleet-alive" class="value">100 / 100</span>
+                    </div>
+                    <div class="metric">
+                        <span class="label">Peak Fitness</span>
+                        <span id="map-best-fitness" class="value">0</span>
+                    </div>
+                    <div class="metric">
+                        <span class="label">Evolution</span>
+                        <span id="evolution-trend" class="value">+0.0%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Simulation Settings Card -->
+        <div class="ui-component info-card yellow-border">
+            <div class="comp-header">
+                <span class="comp-title">Simulator Settings</span>
+            </div>
+            <div class="card-body">
+                <div class="metric">
+                    <span class="label">Swarm Max Speed</span>
+                    <input type="range" id="speed-slider" min="1" max="10" step="1" value="3" oninput="changeSpeed(this.value)">
+                    <span id="speed-val" class="value">30.0 km/h</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mini Map Window -->
+        <div id="map-window" class="ui-component floating-window visible">
+            <div class="comp-header">
+                <span class="comp-title">Radar View</span>
+                <button class="close-btn" onclick="toggleWindow('map-window')">✕</button>
+            </div>
+            <div class="window-content">
+                <canvas id="radarCanvas" class="window-canvas"></canvas>
+            </div>
+        </div>
+
+        <!-- Neural Analytics Card -->
+        <div class="ui-component info-card magenta-border">
+            <div class="comp-header">
+                <span class="comp-title">Neural Analytics</span>
+            </div>
+            <div class="card-body">
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <span class="label">Architecture</span>
+                        <span id="nn-arch" class="value">5-8-4</span>
+                    </div>
+                    <div class="metric">
+                        <span class="label">Velocity</span>
+                        <span id="map-speed" class="value">0.0 km/h</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Neural Net Window -->
+        <div id="nn-window" class="ui-component floating-window visible">
+            <div class="comp-header">
+                <span class="comp-title">Logic Architecture</span>
+                <button class="close-btn" onclick="toggleWindow('nn-window')">✕</button>
+            </div>
+            <div class="window-content">
+                <canvas id="brainCanvas" class="window-canvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="auto-gen-indicator">
+        <div class="pulse-dot"></div>
+        <span>AUTO-EVOLUTION ACTIVE</span>
     </div>
 
     <!-- System Utilities -->
