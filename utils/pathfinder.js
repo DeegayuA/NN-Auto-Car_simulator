@@ -5,17 +5,27 @@
 class RouteDiscovery {
     constructor(graph) {
         this.graph = graph;
-        this.distances = new Map(); // nodeId -> distance from start
+        // Keyed by node INDEX, not by GeoPoint.id.  Map files carry an OSM id
+        // per node, but the graph loader rebuilds points through
+        // `new GeoPoint(x, y)`, so `p.id` may be undefined; keying on it
+        // collapses every node onto a single map entry and yields a constant
+        // fitness of 0 everywhere.  The index is always well defined.
+        this.index = new Map(graph.points.map((p, i) => [p, i]));
+        this.distances = new Map(); // nodeIndex -> distance from start
         this.adjacency = new Map();
         this.buildAdjacency();
     }
 
     buildAdjacency() {
-        this.graph.points.forEach(p => this.adjacency.set(p.id, []));
+        this.graph.points.forEach((p, i) => this.adjacency.set(i, []));
         this.graph.segments.forEach(s => {
-            this.adjacency.get(s.p1.id).push({ to: s.p2.id, weight: calcDist(s.p1, s.p2) });
+            const a = this.index.get(s.p1);
+            const b = this.index.get(s.p2);
+            if (a === undefined || b === undefined) return;
+            const weight = calcDist(s.p1, s.p2);
+            this.adjacency.get(a).push({ to: b, weight });
             if (!s.oneWay || s.oneWay === "no") {
-                this.adjacency.get(s.p2.id).push({ to: s.p1.id, weight: calcDist(s.p1, s.p2) });
+                this.adjacency.get(b).push({ to: a, weight });
             }
         });
     }
@@ -25,10 +35,11 @@ class RouteDiscovery {
         if (!startNode) return;
 
         const pq = new PriorityQueue();
-        this.graph.points.forEach(p => this.distances.set(p.id, Infinity));
-        
-        this.distances.set(startNode.id, 0);
-        pq.push(startNode.id, 0);
+        this.graph.points.forEach((p, i) => this.distances.set(i, Infinity));
+
+        const startIndex = this.index.get(startNode);
+        this.distances.set(startIndex, 0);
+        pq.push(startIndex, 0);
 
         while (!pq.isEmpty()) {
             const { item: uId, priority: d } = pq.pop();
@@ -77,8 +88,8 @@ class RouteDiscovery {
             if (d < minSegDist) {
                 minSegDist = d;
                 
-                const d1 = this.distances.get(s.p1.id);
-                const d2 = this.distances.get(s.p2.id);
+                const d1 = this.distances.get(this.index.get(s.p1));
+                const d2 = this.distances.get(this.index.get(s.p2));
                 
                 if (d1 !== Infinity && d2 !== Infinity) {
                     // Linear interpolation between the two node distances based on projection

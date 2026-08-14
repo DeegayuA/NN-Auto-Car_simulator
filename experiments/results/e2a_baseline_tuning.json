@@ -1,0 +1,1007 @@
+{
+  "note": "Selected on validation poses only; test poses never used for tuning.",
+  "grids": {
+    "Reactive-FSM": [
+      {
+        "params": {
+          "blockThreshold": 0.35,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.25
+        },
+        "val": 4720.9860403596085
+      },
+      {
+        "params": {
+          "blockThreshold": 0.35,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.25
+        },
+        "val": 4720.9860403596085
+      },
+      {
+        "params": {
+          "blockThreshold": 0.35,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.25
+        },
+        "val": 4720.9860403596085
+      },
+      {
+        "params": {
+          "blockThreshold": 0.45,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.25
+        },
+        "val": 4720.835027054276
+      },
+      {
+        "params": {
+          "blockThreshold": 0.45,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.25
+        },
+        "val": 4720.835027054276
+      },
+      {
+        "params": {
+          "blockThreshold": 0.45,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.25
+        },
+        "val": 4720.835027054276
+      },
+      {
+        "params": {
+          "blockThreshold": 0.45,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.5
+        },
+        "val": 4518.637397702329
+      },
+      {
+        "params": {
+          "blockThreshold": 0.45,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.5
+        },
+        "val": 4518.637397702329
+      },
+      {
+        "params": {
+          "blockThreshold": 0.45,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.5
+        },
+        "val": 4518.637397702329
+      },
+      {
+        "params": {
+          "blockThreshold": 0.35,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.5
+        },
+        "val": 4518.362637694331
+      },
+      {
+        "params": {
+          "blockThreshold": 0.35,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.5
+        },
+        "val": 4518.362637694331
+      },
+      {
+        "params": {
+          "blockThreshold": 0.35,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.5
+        },
+        "val": 4518.362637694331
+      },
+      {
+        "params": {
+          "blockThreshold": 0.55,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.5
+        },
+        "val": 4518.06656739934
+      },
+      {
+        "params": {
+          "blockThreshold": 0.55,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.5
+        },
+        "val": 4518.06656739934
+      },
+      {
+        "params": {
+          "blockThreshold": 0.55,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.5
+        },
+        "val": 4518.06656739934
+      },
+      {
+        "params": {
+          "blockThreshold": 0.45,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.1
+        },
+        "val": 4138.7481466772315
+      },
+      {
+        "params": {
+          "blockThreshold": 0.45,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.1
+        },
+        "val": 4138.7481466772315
+      },
+      {
+        "params": {
+          "blockThreshold": 0.45,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.1
+        },
+        "val": 4138.7481466772315
+      },
+      {
+        "params": {
+          "blockThreshold": 0.55,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.1
+        },
+        "val": 4014.7637486515014
+      },
+      {
+        "params": {
+          "blockThreshold": 0.55,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.1
+        },
+        "val": 4014.7637486515014
+      },
+      {
+        "params": {
+          "blockThreshold": 0.55,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.1
+        },
+        "val": 4014.719827795697
+      },
+      {
+        "params": {
+          "blockThreshold": 0.65,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.1
+        },
+        "val": 3834.17589345976
+      },
+      {
+        "params": {
+          "blockThreshold": 0.65,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.1
+        },
+        "val": 3834.17589345976
+      },
+      {
+        "params": {
+          "blockThreshold": 0.65,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.1
+        },
+        "val": 3834.151237237663
+      },
+      {
+        "params": {
+          "blockThreshold": 0.75,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.1
+        },
+        "val": 3833.5455535304964
+      },
+      {
+        "params": {
+          "blockThreshold": 0.75,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.1
+        },
+        "val": 3833.5455535304964
+      },
+      {
+        "params": {
+          "blockThreshold": 0.75,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.1
+        },
+        "val": 3833.5246354139244
+      },
+      {
+        "params": {
+          "blockThreshold": 0.55,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.25
+        },
+        "val": 3633.7070964955956
+      },
+      {
+        "params": {
+          "blockThreshold": 0.55,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.25
+        },
+        "val": 3633.7070964955956
+      },
+      {
+        "params": {
+          "blockThreshold": 0.55,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.25
+        },
+        "val": 3633.6633349658237
+      },
+      {
+        "params": {
+          "blockThreshold": 0.65,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.25
+        },
+        "val": 3452.0205813024463
+      },
+      {
+        "params": {
+          "blockThreshold": 0.65,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.25
+        },
+        "val": 3452.0205813024463
+      },
+      {
+        "params": {
+          "blockThreshold": 0.65,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.25
+        },
+        "val": 3451.9709410011696
+      },
+      {
+        "params": {
+          "blockThreshold": 0.75,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.25
+        },
+        "val": 3450.5594987265686
+      },
+      {
+        "params": {
+          "blockThreshold": 0.75,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.25
+        },
+        "val": 3450.5575914653627
+      },
+      {
+        "params": {
+          "blockThreshold": 0.75,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.25
+        },
+        "val": 3450.5171176270874
+      },
+      {
+        "params": {
+          "blockThreshold": 0.65,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.5
+        },
+        "val": 3255.540300673767
+      },
+      {
+        "params": {
+          "blockThreshold": 0.65,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.5
+        },
+        "val": 3255.540300673767
+      },
+      {
+        "params": {
+          "blockThreshold": 0.65,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.5
+        },
+        "val": 3255.496460171059
+      },
+      {
+        "params": {
+          "blockThreshold": 0.75,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.5
+        },
+        "val": 3254.3340848171006
+      },
+      {
+        "params": {
+          "blockThreshold": 0.75,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.5
+        },
+        "val": 3254.3340848171006
+      },
+      {
+        "params": {
+          "blockThreshold": 0.75,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.5
+        },
+        "val": 3254.319327330993
+      },
+      {
+        "params": {
+          "blockThreshold": 0.35,
+          "brakeThreshold": 0.75,
+          "asymmetry": 0.1
+        },
+        "val": 3170.907739822156
+      },
+      {
+        "params": {
+          "blockThreshold": 0.35,
+          "brakeThreshold": 0.85,
+          "asymmetry": 0.1
+        },
+        "val": 3170.907739822156
+      },
+      {
+        "params": {
+          "blockThreshold": 0.35,
+          "brakeThreshold": 0.95,
+          "asymmetry": 0.1
+        },
+        "val": 3170.907739822156
+      }
+    ],
+    "P-Controller": [
+      {
+        "params": {
+          "kp": 0.8,
+          "deadband": 0.15,
+          "brakeThreshold": 0.95
+        },
+        "val": 938.173958208534
+      },
+      {
+        "params": {
+          "kp": 0.8,
+          "deadband": 0.15,
+          "brakeThreshold": 0.85
+        },
+        "val": 938.1736162763516
+      },
+      {
+        "params": {
+          "kp": 0.8,
+          "deadband": 0.15,
+          "brakeThreshold": 0.75
+        },
+        "val": 938.0212298564691
+      },
+      {
+        "params": {
+          "kp": 0.8,
+          "deadband": 0.08,
+          "brakeThreshold": 0.95
+        },
+        "val": 339.0671325478775
+      },
+      {
+        "params": {
+          "kp": 1.5,
+          "deadband": 0.15,
+          "brakeThreshold": 0.95
+        },
+        "val": 339.0671325478775
+      },
+      {
+        "params": {
+          "kp": 0.8,
+          "deadband": 0.08,
+          "brakeThreshold": 0.85
+        },
+        "val": 339.0659584414477
+      },
+      {
+        "params": {
+          "kp": 1.5,
+          "deadband": 0.15,
+          "brakeThreshold": 0.85
+        },
+        "val": 339.0659584414477
+      },
+      {
+        "params": {
+          "kp": 0.8,
+          "deadband": 0.08,
+          "brakeThreshold": 0.75
+        },
+        "val": 338.85214241405924
+      },
+      {
+        "params": {
+          "kp": 1.5,
+          "deadband": 0.15,
+          "brakeThreshold": 0.75
+        },
+        "val": 338.85214241405924
+      },
+      {
+        "params": {
+          "kp": 2.2,
+          "deadband": 0.15,
+          "brakeThreshold": 0.95
+        },
+        "val": 265.1803930031367
+      },
+      {
+        "params": {
+          "kp": 2.2,
+          "deadband": 0.15,
+          "brakeThreshold": 0.85
+        },
+        "val": 265.17307827800164
+      },
+      {
+        "params": {
+          "kp": 2.2,
+          "deadband": 0.15,
+          "brakeThreshold": 0.75
+        },
+        "val": 264.83408207676285
+      },
+      {
+        "params": {
+          "kp": 0.8,
+          "deadband": 0.05,
+          "brakeThreshold": 0.95
+        },
+        "val": 251.65124814402844
+      },
+      {
+        "params": {
+          "kp": 0.8,
+          "deadband": 0.05,
+          "brakeThreshold": 0.85
+        },
+        "val": 251.63755560613353
+      },
+      {
+        "params": {
+          "kp": 0.8,
+          "deadband": 0.05,
+          "brakeThreshold": 0.75
+        },
+        "val": 251.43079375931455
+      },
+      {
+        "params": {
+          "kp": 1.5,
+          "deadband": 0.08,
+          "brakeThreshold": 0.95
+        },
+        "val": 235.97320336648963
+      },
+      {
+        "params": {
+          "kp": 1.5,
+          "deadband": 0.08,
+          "brakeThreshold": 0.85
+        },
+        "val": 235.94267696443748
+      },
+      {
+        "params": {
+          "kp": 1.5,
+          "deadband": 0.08,
+          "brakeThreshold": 0.75
+        },
+        "val": 235.71300943859737
+      },
+      {
+        "params": {
+          "kp": 3.5,
+          "deadband": 0.15,
+          "brakeThreshold": 0.95
+        },
+        "val": 203.98008763556132
+      },
+      {
+        "params": {
+          "kp": 3.5,
+          "deadband": 0.15,
+          "brakeThreshold": 0.85
+        },
+        "val": 203.94082994002065
+      },
+      {
+        "params": {
+          "kp": 3.5,
+          "deadband": 0.15,
+          "brakeThreshold": 0.75
+        },
+        "val": 203.60932735644295
+      },
+      {
+        "params": {
+          "kp": 2.2,
+          "deadband": 0.08,
+          "brakeThreshold": 0.95
+        },
+        "val": 181.55246575536384
+      },
+      {
+        "params": {
+          "kp": 2.2,
+          "deadband": 0.08,
+          "brakeThreshold": 0.85
+        },
+        "val": 181.50281758691614
+      },
+      {
+        "params": {
+          "kp": 2.2,
+          "deadband": 0.08,
+          "brakeThreshold": 0.75
+        },
+        "val": 181.16901711629367
+      },
+      {
+        "params": {
+          "kp": 1.5,
+          "deadband": 0.05,
+          "brakeThreshold": 0.95
+        },
+        "val": 174.73050960762237
+      },
+      {
+        "params": {
+          "kp": 1.5,
+          "deadband": 0.05,
+          "brakeThreshold": 0.85
+        },
+        "val": 174.68086143917466
+      },
+      {
+        "params": {
+          "kp": 1.5,
+          "deadband": 0.05,
+          "brakeThreshold": 0.75
+        },
+        "val": 174.2390394675935
+      },
+      {
+        "params": {
+          "kp": 5,
+          "deadband": 0.15,
+          "brakeThreshold": 0.95
+        },
+        "val": 166.77944236143637
+      },
+      {
+        "params": {
+          "kp": 5,
+          "deadband": 0.15,
+          "brakeThreshold": 0.85
+        },
+        "val": 166.73523871588947
+      },
+      {
+        "params": {
+          "kp": 5,
+          "deadband": 0.15,
+          "brakeThreshold": 0.75
+        },
+        "val": 166.34606765535167
+      },
+      {
+        "params": {
+          "kp": 0.8,
+          "deadband": 0.02,
+          "brakeThreshold": 0.95
+        },
+        "val": 154.58485437390138
+      },
+      {
+        "params": {
+          "kp": 0.8,
+          "deadband": 0.02,
+          "brakeThreshold": 0.85
+        },
+        "val": 154.53820510339236
+      },
+      {
+        "params": {
+          "kp": 0.8,
+          "deadband": 0.02,
+          "brakeThreshold": 0.75
+        },
+        "val": 154.1002645619601
+      },
+      {
+        "params": {
+          "kp": 3.5,
+          "deadband": 0.08,
+          "brakeThreshold": 0.95
+        },
+        "val": 144.59965962948712
+      },
+      {
+        "params": {
+          "kp": 3.5,
+          "deadband": 0.08,
+          "brakeThreshold": 0.85
+        },
+        "val": 144.5530103589781
+      },
+      {
+        "params": {
+          "kp": 3.5,
+          "deadband": 0.08,
+          "brakeThreshold": 0.75
+        },
+        "val": 144.0469454837183
+      },
+      {
+        "params": {
+          "kp": 2.2,
+          "deadband": 0.05,
+          "brakeThreshold": 0.95
+        },
+        "val": 142.13638123759276
+      },
+      {
+        "params": {
+          "kp": 2.2,
+          "deadband": 0.05,
+          "brakeThreshold": 0.85
+        },
+        "val": 142.08973196708374
+      },
+      {
+        "params": {
+          "kp": 2.2,
+          "deadband": 0.05,
+          "brakeThreshold": 0.75
+        },
+        "val": 141.58366709182397
+      },
+      {
+        "params": {
+          "kp": 8,
+          "deadband": 0.15,
+          "brakeThreshold": 0.95
+        },
+        "val": 123.59318707580485
+      },
+      {
+        "params": {
+          "kp": 8,
+          "deadband": 0.15,
+          "brakeThreshold": 0.85
+        },
+        "val": 123.53924106659936
+      },
+      {
+        "params": {
+          "kp": 8,
+          "deadband": 0.15,
+          "brakeThreshold": 0.75
+        },
+        "val": 122.93175445152232
+      },
+      {
+        "params": {
+          "kp": 5,
+          "deadband": 0.08,
+          "brakeThreshold": 0.95
+        },
+        "val": 113.48772474772412
+      },
+      {
+        "params": {
+          "kp": 5,
+          "deadband": 0.08,
+          "brakeThreshold": 0.85
+        },
+        "val": 113.4345285150592
+      },
+      {
+        "params": {
+          "kp": 5,
+          "deadband": 0.08,
+          "brakeThreshold": 0.75
+        },
+        "val": 112.80094167645753
+      },
+      {
+        "params": {
+          "kp": 3.5,
+          "deadband": 0.05,
+          "brakeThreshold": 0.95
+        },
+        "val": 106.04544156844649
+      },
+      {
+        "params": {
+          "kp": 3.5,
+          "deadband": 0.05,
+          "brakeThreshold": 0.85
+        },
+        "val": 105.99501587695961
+      },
+      {
+        "params": {
+          "kp": 3.5,
+          "deadband": 0.05,
+          "brakeThreshold": 0.75
+        },
+        "val": 105.37052588706504
+      },
+      {
+        "params": {
+          "kp": 1.5,
+          "deadband": 0.02,
+          "brakeThreshold": 0.95
+        },
+        "val": 101.46429306647323
+      },
+      {
+        "params": {
+          "kp": 1.5,
+          "deadband": 0.02,
+          "brakeThreshold": 0.85
+        },
+        "val": 101.40419821983456
+      },
+      {
+        "params": {
+          "kp": 1.5,
+          "deadband": 0.02,
+          "brakeThreshold": 0.75
+        },
+        "val": 100.69880953383499
+      },
+      {
+        "params": {
+          "kp": 5,
+          "deadband": 0.05,
+          "brakeThreshold": 0.95
+        },
+        "val": 91.9132262299629
+      },
+      {
+        "params": {
+          "kp": 8,
+          "deadband": 0.08,
+          "brakeThreshold": 0.95
+        },
+        "val": 91.9132262299629
+      },
+      {
+        "params": {
+          "kp": 5,
+          "deadband": 0.05,
+          "brakeThreshold": 0.85
+        },
+        "val": 91.85731724343773
+      },
+      {
+        "params": {
+          "kp": 8,
+          "deadband": 0.08,
+          "brakeThreshold": 0.85
+        },
+        "val": 91.85731724343773
+      },
+      {
+        "params": {
+          "kp": 5,
+          "deadband": 0.05,
+          "brakeThreshold": 0.75
+        },
+        "val": 91.02701995238122
+      },
+      {
+        "params": {
+          "kp": 8,
+          "deadband": 0.08,
+          "brakeThreshold": 0.75
+        },
+        "val": 91.02701995238122
+      },
+      {
+        "params": {
+          "kp": 2.2,
+          "deadband": 0.02,
+          "brakeThreshold": 0.95
+        },
+        "val": 89.37547391441774
+      },
+      {
+        "params": {
+          "kp": 2.2,
+          "deadband": 0.02,
+          "brakeThreshold": 0.85
+        },
+        "val": 89.31146312155103
+      },
+      {
+        "params": {
+          "kp": 2.2,
+          "deadband": 0.02,
+          "brakeThreshold": 0.75
+        },
+        "val": 88.43157578539405
+      },
+      {
+        "params": {
+          "kp": 8,
+          "deadband": 0.05,
+          "brakeThreshold": 0.95
+        },
+        "val": 79.94492839717105
+      },
+      {
+        "params": {
+          "kp": 8,
+          "deadband": 0.05,
+          "brakeThreshold": 0.85
+        },
+        "val": 79.90186436565803
+      },
+      {
+        "params": {
+          "kp": 8,
+          "deadband": 0.05,
+          "brakeThreshold": 0.75
+        },
+        "val": 78.96767296660732
+      },
+      {
+        "params": {
+          "kp": 3.5,
+          "deadband": 0.02,
+          "brakeThreshold": 0.95
+        },
+        "val": 77.07195090279755
+      },
+      {
+        "params": {
+          "kp": 3.5,
+          "deadband": 0.02,
+          "brakeThreshold": 0.85
+        },
+        "val": 77.03066863297636
+      },
+      {
+        "params": {
+          "kp": 3.5,
+          "deadband": 0.02,
+          "brakeThreshold": 0.75
+        },
+        "val": 76.20755270524883
+      },
+      {
+        "params": {
+          "kp": 5,
+          "deadband": 0.02,
+          "brakeThreshold": 0.95
+        },
+        "val": 62.94528898238692
+      },
+      {
+        "params": {
+          "kp": 5,
+          "deadband": 0.02,
+          "brakeThreshold": 0.85
+        },
+        "val": 62.88986471757373
+      },
+      {
+        "params": {
+          "kp": 5,
+          "deadband": 0.02,
+          "brakeThreshold": 0.75
+        },
+        "val": 62.1743054400538
+      },
+      {
+        "params": {
+          "kp": 8,
+          "deadband": 0.02,
+          "brakeThreshold": 0.95
+        },
+        "val": 61.5811280867248
+      },
+      {
+        "params": {
+          "kp": 8,
+          "deadband": 0.02,
+          "brakeThreshold": 0.85
+        },
+        "val": 61.51984270634804
+      },
+      {
+        "params": {
+          "kp": 8,
+          "deadband": 0.02,
+          "brakeThreshold": 0.75
+        },
+        "val": 60.38952417478036
+      }
+    ],
+    "Pure-Pursuit (oracle)": [
+      {
+        "params": {
+          "lookahead": 120
+        },
+        "val": 1909.229711831695
+      },
+      {
+        "params": {
+          "lookahead": 180
+        },
+        "val": 1336.5417442612402
+      },
+      {
+        "params": {
+          "lookahead": 220
+        },
+        "val": 1051.7434710098214
+      },
+      {
+        "params": {
+          "lookahead": 300
+        },
+        "val": 851.1587255780184
+      },
+      {
+        "params": {
+          "lookahead": 400
+        },
+        "val": 700.5363366391258
+      },
+      {
+        "params": {
+          "lookahead": 550
+        },
+        "val": 627.269897034276
+      }
+    ]
+  },
+  "best": {
+    "Reactive-FSM": {
+      "params": {
+        "blockThreshold": 0.35,
+        "brakeThreshold": 0.75,
+        "asymmetry": 0.25
+      },
+      "val": 4720.9860403596085
+    },
+    "P-Controller": {
+      "params": {
+        "kp": 0.8,
+        "deadband": 0.15,
+        "brakeThreshold": 0.95
+      },
+      "val": 938.173958208534
+    },
+    "Pure-Pursuit (oracle)": {
+      "params": {
+        "lookahead": 120
+      },
+      "val": 1909.229711831695
+    }
+  }
+}

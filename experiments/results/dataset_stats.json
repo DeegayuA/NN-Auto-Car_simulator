@@ -1,0 +1,84 @@
+{
+  "generatedBy": "experiments/datasetStats.js",
+  "sourceFile": "simulation/simulationData.js",
+  "sourceBytes": 6367313,
+  "loadMs": 188,
+  "world": {
+    "roadWidthPx": 100,
+    "roadRoundness": 10,
+    "buildingWidthPx": 150,
+    "treeSizePx": 160
+  },
+  "counts": {
+    "graphNodes": 446,
+    "graphSegments": 472,
+    "roadBorderSegments": 1870,
+    "laneGuides": 2112,
+    "buildings": 433,
+    "trees": 500,
+    "markings": 1,
+    "envelopes": 472,
+    "oneWaySegments": 149
+  },
+  "markingTypes": {
+    "start": 1
+  },
+  "bbox": {
+    "minX": 0,
+    "maxX": 16542.023589346078,
+    "minY": 0,
+    "maxY": 9608.270999995624,
+    "widthPx": 16542.023589346078,
+    "heightPx": 9608.270999995624
+  },
+  "segmentLengthPx": {
+    "n": 472,
+    "min": 10.069028018205705,
+    "p25": 61.901898149857416,
+    "median": 98.8047988859283,
+    "p75": 248.2896631277473,
+    "p95": 823.8362202397127,
+    "max": 1452.9915567764372,
+    "mean": 214.68371908923245,
+    "sd": 254.84197531993493
+  },
+  "roadBorderLengthPx": {
+    "n": 1870,
+    "min": 0.000012913447812311065,
+    "p25": 1.439889032393374,
+    "median": 15.643446504022979,
+    "p75": 72.29717930072454,
+    "p95": 593.1511001282429,
+    "max": 1452.9915567764372,
+    "mean": 99.01762375965714,
+    "sd": 209.97919580029398
+  },
+  "degreeHistogram": {
+    "1": 20,
+    "2": 369,
+    "3": 42,
+    "4": 15
+  },
+  "connectivity": {
+    "components": 3,
+    "largestComponent": 428,
+    "largestComponentShare": 0.9596412556053812,
+    "componentSizesTop10": [
+      428,
+      13,
+      5
+    ]
+  },
+  "reachabilityFromStart": {
+    "startPoint": {
+      "x": 8246.127817704508,
+      "y": 7079.874512429311
+    },
+    "nodesScored": 446,
+    "reachable": 428,
+    "unreachable": 18,
+    "reachableShare": 0.9596412556053812,
+    "maxRouteDistancePx": 17822.436211029646,
+    "dijkstraMs": 1
+  }
+}

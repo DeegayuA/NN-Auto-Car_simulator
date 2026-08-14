@@ -1,0 +1,44 @@
+{
+  "smoke": false,
+  "config": {
+    "masterSeed": 2026,
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55
+    ],
+    "population": 60,
+    "generations": 30,
+    "maxFrames": 1200,
+    "maxSpeed": 6,
+    "layers": [
+      12,
+      10,
+      4
+    ],
+    "mutationRate": 0.15,
+    "boostEvery": 5,
+    "boostRate": 0.5,
+    "eliteCount": 2,
+    "tournamentSize": 3,
+    "ablationSeeds": 3,
+    "ablationGenerations": 20,
+    "poses": {
+      "val": 10,
+      "test": 20
+    },
+    "bootstrapIterations": 2000
+  },
+  "node": "v24.16.0",
+  "platform": "darwin arm64",
+  "elapsedSeconds": 1642.233,
+  "experiments": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5"
+  ]
+}

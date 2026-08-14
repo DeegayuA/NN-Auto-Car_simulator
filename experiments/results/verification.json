@@ -1,0 +1,23 @@
+{
+  "seed": 2026,
+  "node": "v24.16.0",
+  "determinism": {
+    "pass": true,
+    "repetitions": 3,
+    "signature": "8|collision|121.849870707|4.200000000|4.169218147|0.000000000|25.432068999"
+  },
+  "cullingEquivalence": {
+    "pass": true,
+    "trials": 8,
+    "identical": 8,
+    "culledRadiusPx": 400,
+    "beamLengthPx": 220,
+    "vehicleDiagonalPx": 58
+  },
+  "evolutionDeterminism": {
+    "pass": true,
+    "generations": 5,
+    "population": 20
+  },
+  "allPass": true
+}

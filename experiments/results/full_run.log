@@ -1,0 +1,75 @@
+Building world (smoke=false) ...
+  graph: 446 nodes / 472 segments, 1870 border segments
+  poses: 10 validation, 20 test
+
+[E1] Fitness-signal diagnostic
+  as-committed (RouteDiscovery)  distinct fitness = 1/60, mean frames = 39.1
+  euclidean fallback             distinct fitness = 26/60, mean frames = 84.8
+  corrected route scorer         distinct fitness = 27/60, mean frames = 84.2
+  -> experiments/results/e1_fitness_signal.json
+
+[E2a] Baseline tuning on validation poses
+  Reactive-FSM           best {"blockThreshold":0.35,"brakeThreshold":0.75,"asymmetry":0.25} -> 4721.0 px
+  P-Controller           best {"kp":0.8,"deadband":0.15,"brakeThreshold":0.95} -> 938.2 px
+  Pure-Pursuit (oracle)  best {"lookahead":120} -> 1909.2 px
+  -> experiments/results/e2a_baseline_tuning.json
+
+[E2] Fixed-policy baselines on held-out poses
+  Random-NN              test route = 310.6 px, collisions = 26/100
+  Reactive-FSM           test route = 4793.5 px, collisions = 16/20
+  P-Controller           test route = 907.6 px, collisions = 20/20
+  Pure-Pursuit (oracle)  test route = 2311.7 px, collisions = 17/20
+  -> experiments/results/e2_baselines.json
+
+[E3] Neuroevolution training arms
+  NE-A: as-committed                     seed 11: best fitness 0.0, final-gen best route 117.9 px, 17.5 s
+  NE-A: as-committed                     seed 22: best fitness 0.0, final-gen best route 532.4 px, 25.7 s
+  NE-A: as-committed                     seed 33: best fitness 0.0, final-gen best route 119.3 px, 13.6 s
+  NE-A: as-committed                     seed 44: best fitness 0.0, final-gen best route 532.4 px, 15.2 s
+  NE-A: as-committed                     seed 55: best fitness 0.0, final-gen best route 118.2 px, 17.8 s
+  NE-B: euclidean fitness                seed 11: best fitness 3356.5, final-gen best route 5270.2 px, 44.3 s
+  NE-B: euclidean fitness                seed 22: best fitness 2570.0, final-gen best route 2821.5 px, 26.0 s
+  NE-B: euclidean fitness                seed 33: best fitness 2589.1, final-gen best route 3949.2 px, 22.0 s
+  NE-B: euclidean fitness                seed 44: best fitness 3422.0, final-gen best route 5353.4 px, 25.3 s
+  NE-B: euclidean fitness                seed 55: best fitness 5771.6, final-gen best route 7045.8 px, 33.6 s
+  NE-C: corrected route fitness          seed 11: best fitness 3578.6, final-gen best route 3578.6 px, 26.3 s
+  NE-C: corrected route fitness          seed 22: best fitness 3578.6, final-gen best route 3578.6 px, 39.0 s
+  NE-C: corrected route fitness          seed 33: best fitness 5332.2, final-gen best route 5332.2 px, 55.8 s
+  NE-C: corrected route fitness          seed 44: best fitness 3578.6, final-gen best route 3578.6 px, 17.0 s
+  NE-C: corrected route fitness          seed 55: best fitness 16432.5, final-gen best route 16432.5 px, 30.1 s
+  NE-D: corrected + tournament/crossover seed 11: best fitness 4670.5, final-gen best route 4670.5 px, 40.2 s
+  NE-D: corrected + tournament/crossover seed 22: best fitness 7089.3, final-gen best route 7089.3 px, 39.0 s
+  NE-D: corrected + tournament/crossover seed 33: best fitness 7132.5, final-gen best route 16366.5 px, 41.3 s
+  NE-D: corrected + tournament/crossover seed 44: best fitness 3567.3, final-gen best route 3567.3 px, 44.2 s
+  NE-D: corrected + tournament/crossover seed 55: best fitness 7141.2, final-gen best route 16340.0 px, 43.8 s
+  -> experiments/results/e3_training.json
+
+[E4] Ablations
+  architecture/no hidden layer [5-4]     val route = 2949.0 +/- 276.9 px
+  architecture/checkpoint [5-6-4]        val route = 729.3 +/- 199.6 px
+  architecture/current [5-12-10-4]       val route = 1358.5 +/- 602.3 px
+  architecture/wide [5-24-16-4]          val route = 415.4 +/- 280.6 px
+  mutation/rate 0.05                     val route = 1014.4 +/- 183.0 px
+  mutation/rate 0.15 (default)           val route = 1358.5 +/- 602.3 px
+  mutation/rate 0.30                     val route = 547.9 +/- 321.7 px
+  mutation/rate 0.50                     val route = 1544.9 +/- 1660.5 px
+  sensing/3 beams                        val route = 536.2 +/- 294.2 px
+  sensing/5 beams (default)              val route = 1358.5 +/- 602.3 px
+  sensing/7 beams                        val route = 1790.1 +/- 896.4 px
+  sensing/range 120 px                   val route = 167.8 +/- 98.8 px
+  sensing/range 220 px (default)         val route = 1358.5 +/- 602.3 px
+  sensing/range 320 px                   val route = 934.8 +/- 386.2 px
+  -> experiments/results/e4_ablations.json
+
+[E5] Final held-out evaluation
+  NE-A: as-committed                     route 403.7 px, collision rate 33%
+  NE-B: euclidean fitness                route 1428.3 px, collision rate 78%
+  NE-C: corrected route fitness          route 841.2 px, collision rate 98%
+  NE-D: corrected + tournament/crossover route 2645.6 px, collision rate 80%
+  Reactive-FSM                           route 4793.5 px, collision rate 80%
+  P-Controller                           route 907.6 px, collision rate 100%
+  Pure-Pursuit (oracle)                  route 2311.7 px, collision rate 85%
+  -> experiments/results/e5_final.json
+  -> experiments/results/run_manifest.json
+
+Done in 1642.2 s

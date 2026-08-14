@@ -5,10 +5,18 @@ class NodeGraph {
    }
 
    static load(info) {
-      const points = info.points.map((i) => new GeoPoint(i.x, i.y));
+      // Preserve the OpenStreetMap node id and the one-way tag: GeoPoint's
+      // constructor only carries x/y, so a plain `new GeoPoint(i.x, i.y)`
+      // silently discards every attribute the map file supplies.
+      const points = info.points.map((i) => {
+         const p = new GeoPoint(i.x, i.y);
+         if (i.id !== undefined) p.id = i.id;
+         return p;
+      });
       const segments = info.segments.map((i) => new LineSegment(
          points.find((p) => p.equals(i.p1)),
-         points.find((p) => p.equals(i.p2))
+         points.find((p) => p.equals(i.p2)),
+         i.oneWay
       ));
       return new NodeGraph(points, segments);
    }

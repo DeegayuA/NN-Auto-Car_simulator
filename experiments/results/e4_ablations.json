@@ -1,0 +1,737 @@
+{
+  "config": {
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "generations": 20
+  },
+  "rows": [
+    {
+      "group": "architecture",
+      "name": "no hidden layer [5-4]",
+      "layers": [
+        4
+      ],
+      "mutationRate": 0.15,
+      "beamCount": 5,
+      "beamLength": 220,
+      "parameters": 24,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 10014.954643215558,
+        "sd": 5526.488013344328,
+        "se": 3190.719342177588,
+        "min": 6496.903313216344,
+        "q1": 6830.037513674963,
+        "median": 7163.171714133581,
+        "q3": 11773.980308215167,
+        "max": 16384.78890229675
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 2948.985455887534,
+        "sd": 276.90027100106164,
+        "se": 159.86844600114327,
+        "min": 2632.1101602193953,
+        "q1": 2851.2849158239706,
+        "median": 3070.459671428546,
+        "q3": 3107.423103721604,
+        "max": 3144.386536014662
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 7163.171714133581,
+          "valMeanRouteProgress": 3070.459671428546
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 6496.903313216344,
+          "valMeanRouteProgress": 3144.386536014662
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 16384.78890229675,
+          "valMeanRouteProgress": 2632.1101602193953
+        }
+      ]
+    },
+    {
+      "group": "architecture",
+      "name": "checkpoint [5-6-4]",
+      "layers": [
+        6,
+        4
+      ],
+      "mutationRate": 0.15,
+      "beamCount": 5,
+      "beamLength": 220,
+      "parameters": 64,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 3925.228951239143,
+        "sd": 606.1011812938158,
+        "se": 349.93268017613474,
+        "min": 3571.996587890606,
+        "q1": 3575.3014731816784,
+        "median": 3578.6063584727513,
+        "q3": 4101.845132913411,
+        "max": 4625.083907354072
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 729.3288936252294,
+        "sd": 199.62299084868795,
+        "se": 115.2523875029282,
+        "min": 583.849167798171,
+        "q1": 615.5379128579926,
+        "median": 647.2266579178142,
+        "q3": 802.0687565387586,
+        "max": 956.9108551597031
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 4625.083907354072,
+          "valMeanRouteProgress": 647.2266579178142
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 3571.996587890606,
+          "valMeanRouteProgress": 583.849167798171
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 3578.6063584727513,
+          "valMeanRouteProgress": 956.9108551597031
+        }
+      ]
+    },
+    {
+      "group": "architecture",
+      "name": "current [5-12-10-4]",
+      "layers": [
+        12,
+        10,
+        4
+      ],
+      "mutationRate": 0.15,
+      "beamCount": 5,
+      "beamLength": 220,
+      "parameters": 246,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 5524.472840772619,
+        "sd": 1357.1101028380397,
+        "se": 783.5278831935029,
+        "min": 4670.465286787628,
+        "q1": 4742.035289277578,
+        "median": 4813.605291767528,
+        "q3": 5951.4766177651145,
+        "max": 7089.3479437627
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 1358.49556238531,
+        "sd": 602.2885745886828,
+        "se": 347.731470668612,
+        "min": 931.9492363239802,
+        "q1": 1014.0065051246359,
+        "median": 1096.0637739252916,
+        "q3": 1571.768725415975,
+        "max": 2047.4736769066585
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 4670.465286787628,
+          "valMeanRouteProgress": 931.9492363239802
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 7089.3479437627,
+          "valMeanRouteProgress": 2047.4736769066585
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 4813.605291767528,
+          "valMeanRouteProgress": 1096.0637739252916
+        }
+      ]
+    },
+    {
+      "group": "architecture",
+      "name": "wide [5-24-16-4]",
+      "layers": [
+        24,
+        16,
+        4
+      ],
+      "mutationRate": 0.15,
+      "beamCount": 5,
+      "beamLength": 220,
+      "parameters": 612,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 4094.6424232519967,
+        "sd": 894.5274255143313,
+        "se": 516.4556499182021,
+        "min": 3577.767301792225,
+        "q1": 3578.1868301324885,
+        "median": 3578.6063584727513,
+        "q3": 4353.079983981882,
+        "max": 5127.553609491013
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 415.4221507312538,
+        "sd": 280.59279223954434,
+        "se": 162.00032413216968,
+        "min": 92.20580117247523,
+        "q1": 324.8621857515216,
+        "median": 557.518570330568,
+        "q3": 577.030325510643,
+        "max": 596.5420806907182
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 5127.553609491013,
+          "valMeanRouteProgress": 596.5420806907182
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 3578.6063584727513,
+          "valMeanRouteProgress": 557.518570330568
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 3577.767301792225,
+          "valMeanRouteProgress": 92.20580117247523
+        }
+      ]
+    },
+    {
+      "group": "mutation",
+      "name": "rate 0.05",
+      "layers": [
+        12,
+        10,
+        4
+      ],
+      "mutationRate": 0.05,
+      "beamCount": 5,
+      "beamLength": 220,
+      "parameters": 246,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 4093.3084716956323,
+        "sd": 672.7528333968005,
+        "se": 388.41402945972624,
+        "min": 3578.6063584727513,
+        "q1": 3712.6866813486045,
+        "median": 3846.7670042244577,
+        "q3": 4350.659528307073,
+        "max": 4854.552052389688
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 1014.3796025748061,
+        "sd": 183.00877174328267,
+        "se": 105.66016363004702,
+        "min": 803.065164125558,
+        "q1": 960.8678728881007,
+        "median": 1118.6705816506435,
+        "q3": 1120.03682179943,
+        "max": 1121.4030619482166
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 3846.7670042244577,
+          "valMeanRouteProgress": 1121.4030619482166
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 4854.552052389688,
+          "valMeanRouteProgress": 1118.6705816506435
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 3578.6063584727513,
+          "valMeanRouteProgress": 803.065164125558
+        }
+      ]
+    },
+    {
+      "group": "mutation",
+      "name": "rate 0.15 (default)",
+      "layers": [
+        12,
+        10,
+        4
+      ],
+      "mutationRate": 0.15,
+      "beamCount": 5,
+      "beamLength": 220,
+      "parameters": 246,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 5524.472840772619,
+        "sd": 1357.1101028380397,
+        "se": 783.5278831935029,
+        "min": 4670.465286787628,
+        "q1": 4742.035289277578,
+        "median": 4813.605291767528,
+        "q3": 5951.4766177651145,
+        "max": 7089.3479437627
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 1358.49556238531,
+        "sd": 602.2885745886828,
+        "se": 347.731470668612,
+        "min": 931.9492363239802,
+        "q1": 1014.0065051246359,
+        "median": 1096.0637739252916,
+        "q3": 1571.768725415975,
+        "max": 2047.4736769066585
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 4670.465286787628,
+          "valMeanRouteProgress": 931.9492363239802
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 7089.3479437627,
+          "valMeanRouteProgress": 2047.4736769066585
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 4813.605291767528,
+          "valMeanRouteProgress": 1096.0637739252916
+        }
+      ]
+    },
+    {
+      "group": "mutation",
+      "name": "rate 0.30",
+      "layers": [
+        12,
+        10,
+        4
+      ],
+      "mutationRate": 0.3,
+      "beamCount": 5,
+      "beamLength": 220,
+      "parameters": 246,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 3688.88278839891,
+        "sd": 191.00437950941574,
+        "se": 110.27642992615863,
+        "min": 3578.6063584727513,
+        "q1": 3578.6063584727513,
+        "median": 3578.6063584727513,
+        "q3": 3744.021003361989,
+        "max": 3909.435648251227
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 547.8626424721798,
+        "sd": 321.74755733000444,
+        "se": 185.7610388355826,
+        "min": 176.44266805632327,
+        "q1": 451.2362896464686,
+        "median": 726.029911236614,
+        "q3": 733.5726296801081,
+        "max": 741.1153481236023
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 3578.6063584727513,
+          "valMeanRouteProgress": 726.029911236614
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 3909.435648251227,
+          "valMeanRouteProgress": 176.44266805632327
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 3578.6063584727513,
+          "valMeanRouteProgress": 741.1153481236023
+        }
+      ]
+    },
+    {
+      "group": "mutation",
+      "name": "rate 0.50",
+      "layers": [
+        12,
+        10,
+        4
+      ],
+      "mutationRate": 0.5,
+      "beamCount": 5,
+      "beamLength": 220,
+      "parameters": 246,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 4791.333262074962,
+        "sd": 1963.555389609034,
+        "se": 1133.6592327595163,
+        "min": 3578.6063584727513,
+        "q1": 3658.615542226251,
+        "median": 3738.624725979751,
+        "q3": 5397.6967138760665,
+        "max": 7056.768701772382
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 1544.8850689821545,
+        "sd": 1660.4802889959835,
+        "se": 958.6787418358987,
+        "min": 137.1114071028916,
+        "q1": 629.2873317349142,
+        "median": 1121.4632563669368,
+        "q3": 2248.771899921786,
+        "max": 3376.080543476635
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 7056.768701772382,
+          "valMeanRouteProgress": 3376.080543476635
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 3578.6063584727513,
+          "valMeanRouteProgress": 1121.4632563669368
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 3738.624725979751,
+          "valMeanRouteProgress": 137.1114071028916
+        }
+      ]
+    },
+    {
+      "group": "sensing",
+      "name": "3 beams",
+      "layers": [
+        12,
+        10,
+        4
+      ],
+      "mutationRate": 0.15,
+      "beamCount": 3,
+      "beamLength": 220,
+      "parameters": 222,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 3568.808480801899,
+        "sd": 2.776981480291927,
+        "se": 1.6032910051811495,
+        "min": 3566.916759598762,
+        "q1": 3567.214427257545,
+        "median": 3567.5120949163284,
+        "q3": 3569.754341403467,
+        "max": 3571.996587890606
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 536.2111110676693,
+        "sd": 294.2087851578435,
+        "se": 169.86152130883374,
+        "min": 233.57116219562528,
+        "q1": 393.71998351429704,
+        "median": 553.8688048329687,
+        "q3": 687.5310855036914,
+        "max": 821.193366174414
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 3571.996587890606,
+          "valMeanRouteProgress": 553.8688048329687
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 3567.5120949163284,
+          "valMeanRouteProgress": 233.57116219562528
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 3566.916759598762,
+          "valMeanRouteProgress": 821.193366174414
+        }
+      ]
+    },
+    {
+      "group": "sensing",
+      "name": "5 beams (default)",
+      "layers": [
+        12,
+        10,
+        4
+      ],
+      "mutationRate": 0.15,
+      "beamCount": 5,
+      "beamLength": 220,
+      "parameters": 246,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 5524.472840772619,
+        "sd": 1357.1101028380397,
+        "se": 783.5278831935029,
+        "min": 4670.465286787628,
+        "q1": 4742.035289277578,
+        "median": 4813.605291767528,
+        "q3": 5951.4766177651145,
+        "max": 7089.3479437627
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 1358.49556238531,
+        "sd": 602.2885745886828,
+        "se": 347.731470668612,
+        "min": 931.9492363239802,
+        "q1": 1014.0065051246359,
+        "median": 1096.0637739252916,
+        "q3": 1571.768725415975,
+        "max": 2047.4736769066585
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 4670.465286787628,
+          "valMeanRouteProgress": 931.9492363239802
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 7089.3479437627,
+          "valMeanRouteProgress": 2047.4736769066585
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 4813.605291767528,
+          "valMeanRouteProgress": 1096.0637739252916
+        }
+      ]
+    },
+    {
+      "group": "sensing",
+      "name": "7 beams",
+      "layers": [
+        12,
+        10,
+        4
+      ],
+      "mutationRate": 0.15,
+      "beamCount": 7,
+      "beamLength": 220,
+      "parameters": 270,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 6252.218799597654,
+        "sd": 1515.048071421037,
+        "se": 874.7134118701592,
+        "min": 4502.814157930981,
+        "q1": 5811.052914324326,
+        "median": 7119.291670717671,
+        "q3": 7126.921120430991,
+        "max": 7134.550570144312
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 1790.1275410086575,
+        "sd": 896.430116249385,
+        "se": 517.55416892627,
+        "min": 769.8395158278815,
+        "q1": 1459.480716530718,
+        "median": 2149.121917233554,
+        "q3": 2300.2715535990455,
+        "max": 2451.4211899645366
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 7134.550570144312,
+          "valMeanRouteProgress": 2451.4211899645366
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 7119.291670717671,
+          "valMeanRouteProgress": 2149.121917233554
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 4502.814157930981,
+          "valMeanRouteProgress": 769.8395158278815
+        }
+      ]
+    },
+    {
+      "group": "sensing",
+      "name": "range 120 px",
+      "layers": [
+        12,
+        10,
+        4
+      ],
+      "mutationRate": 0.15,
+      "beamCount": 5,
+      "beamLength": 120,
+      "parameters": 246,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 3578.480496299657,
+        "sd": 0.21799967855087315,
+        "se": 0.12586217309459852,
+        "min": 3578.2287719534675,
+        "q1": 3578.4175652131094,
+        "median": 3578.6063584727513,
+        "q3": 3578.6063584727513,
+        "max": 3578.6063584727513
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 167.771139486503,
+        "sd": 98.79011331690396,
+        "se": 57.036498516788136,
+        "min": 59.96327005286757,
+        "q1": 124.67463779521624,
+        "median": 189.38600553756493,
+        "q3": 221.67507420332066,
+        "max": 253.96414286907643
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 3578.6063584727513,
+          "valMeanRouteProgress": 59.96327005286757
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 3578.6063584727513,
+          "valMeanRouteProgress": 253.96414286907643
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 3578.2287719534675,
+          "valMeanRouteProgress": 189.38600553756493
+        }
+      ]
+    },
+    {
+      "group": "sensing",
+      "name": "range 220 px (default)",
+      "layers": [
+        12,
+        10,
+        4
+      ],
+      "mutationRate": 0.15,
+      "beamCount": 5,
+      "beamLength": 220,
+      "parameters": 246,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 5524.472840772619,
+        "sd": 1357.1101028380397,
+        "se": 783.5278831935029,
+        "min": 4670.465286787628,
+        "q1": 4742.035289277578,
+        "median": 4813.605291767528,
+        "q3": 5951.4766177651145,
+        "max": 7089.3479437627
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 1358.49556238531,
+        "sd": 602.2885745886828,
+        "se": 347.731470668612,
+        "min": 931.9492363239802,
+        "q1": 1014.0065051246359,
+        "median": 1096.0637739252916,
+        "q3": 1571.768725415975,
+        "max": 2047.4736769066585
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 4670.465286787628,
+          "valMeanRouteProgress": 931.9492363239802
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 7089.3479437627,
+          "valMeanRouteProgress": 2047.4736769066585
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 4813.605291767528,
+          "valMeanRouteProgress": 1096.0637739252916
+        }
+      ]
+    },
+    {
+      "group": "sensing",
+      "name": "range 320 px",
+      "layers": [
+        12,
+        10,
+        4
+      ],
+      "mutationRate": 0.15,
+      "beamCount": 5,
+      "beamLength": 320,
+      "parameters": 246,
+      "trainBestFitness": {
+        "n": 3,
+        "mean": 4216.563315969637,
+        "sd": 1104.9738634266657,
+        "se": 637.9569574968863,
+        "min": 3578.6063584727513,
+        "q1": 3578.6063584727513,
+        "median": 3578.6063584727513,
+        "q3": 4535.54179471808,
+        "max": 5492.47723096341
+      },
+      "valMeanRouteProgress": {
+        "n": 3,
+        "mean": 934.7603778094057,
+        "sd": 386.19699241420835,
+        "se": 222.97093753056706,
+        "min": 612.6181440845622,
+        "q1": 720.6991637087165,
+        "median": 828.7801833328706,
+        "q3": 1095.8314946718274,
+        "max": 1362.882806010784
+      },
+      "perSeed": [
+        {
+          "seed": 11,
+          "trainBestFitness": 3578.6063584727513,
+          "valMeanRouteProgress": 828.7801833328706
+        },
+        {
+          "seed": 22,
+          "trainBestFitness": 5492.47723096341,
+          "valMeanRouteProgress": 1362.882806010784
+        },
+        {
+          "seed": 33,
+          "trainBestFitness": 3578.6063584727513,
+          "valMeanRouteProgress": 612.6181440845622
+        }
+      ]
+    }
+  ]
+}
