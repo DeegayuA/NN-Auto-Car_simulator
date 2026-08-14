@@ -848,6 +848,13 @@ function buildContent(D) {
     )
   );
 
+  B.push(
+    shot(
+      "neuro",
+      "neural_panel.png",
+      "The live network visualiser at the same instant, showing the 5-12-10-4 topology with sensor inputs S1 to S5 at the bottom and the four actuator outputs (forward, left, right, reverse) at the top. Filled nodes are active. Connection thickness encodes how much that weight has changed since the start of the generation rather than its absolute value, so the single heavy magenta edge from sensor S2 is the connection this generation's mutation has moved furthest — here a strongly inhibitory link from the left-of-centre beam."
+    )
+  );
   p(
     "[[fig:neuro]] shows the network visualiser in detail. It is the component that best " +
       "illustrates the transparency argument made in [[sec:related]]: the five input nodes are " +
@@ -865,13 +872,6 @@ function buildContent(D) {
       "nonetheless describes the current best individual or the population size; none describes the " +
       "dispersion of fitness within the generation, which is exactly the quantity that would have " +
       "exposed the defect and is the omission analysed in [[sec:discussion]]."
-  );
-  B.push(
-    shot(
-      "neuro",
-      "neural_panel.png",
-      "The live network visualiser at the same instant, showing the 5-12-10-4 topology with sensor inputs S1 to S5 at the bottom and the four actuator outputs (forward, left, right, reverse) at the top. Filled nodes are active. Connection thickness encodes how much that weight has changed since the start of the generation rather than its absolute value, so the single heavy magenta edge from sensor S2 is the connection this generation's mutation has moved furthest — here a strongly inhibitory link from the left-of-centre beam."
-    )
   );
 
   h2("Computational complexity");
@@ -1604,7 +1604,7 @@ return best genome seen`,
       c.cliffsDelta.magnitude,
     ]),
     note:
-      "Mann–Whitney U on per-pose means of peak route progress, tie-corrected normal approximation, two-sided. A positive Cliff's delta favours NE-D. No multiple-comparison correction is applied; see the caveat in Section VIII.",
+      "Mann–Whitney U on per-pose means of peak route progress, tie-corrected normal approximation, two-sided. A positive Cliff's delta favours NE-D. No multiple-comparison correction is applied; see the caveat in [[sec:protocol]].",
     wide: true,
   });
 
@@ -1687,7 +1687,7 @@ return best genome seen`,
     fig(
       "termination",
       "fig_termination.svg",
-      "Termination cause by controller. Survival to the frame budget is the only outcome representing success; stagnation and reversal terminations reflect the behavioural rules described in Section VI.",
+      "Termination cause by controller. Survival to the frame budget is the only outcome representing success; stagnation and reversal terminations reflect the behavioural rules described in [[sec:method]].",
       true
     )
   );
@@ -1695,7 +1695,7 @@ return best genome seen`,
     fig(
       "traj",
       "fig_traj.svg",
-      "Single-episode trajectories from the held-out pose at which the two controllers disagree most. From an identical start, the tuned reactive heuristic circles a block and is terminated by the stagnation rule, while the evolved champion continues along the corridor and survives to the frame budget. Both traces are one seed, so the distances shown are individual episodes rather than the seed-averaged pose means reported in Table X.",
+      "Single-episode trajectories from the held-out pose at which the two controllers disagree most. From an identical start, the tuned reactive heuristic circles a block and is terminated by the stagnation rule, while the evolved champion continues along the corridor and survives to the frame budget. Both traces are one seed, so the distances shown are individual episodes rather than the seed-averaged pose means reported in [[tab:perpose]].",
       true
     )
   );
@@ -2286,14 +2286,16 @@ return best genome seen`,
         done: true,
         label: "Code available.",
         text:
-          `\`${git.remote}\`, branch \`${git.branch}\`. The last commit before this report is ` +
-          `\`${git.commit}\`, which is the *pre-repair* state analysed as the baseline arm ` +
-          "throughout [[sec:results]]. The repair itself consists of the two source changes listed " +
-          "verbatim in [[sec:appG]] (`utils/nodeGraph.js` and `utils/pathfinder.js`), together with " +
-          "the `experiments/` and `report/` trees that produce every result and figure here. A " +
-          "reader who checks out the recorded commit alone will reproduce the degenerate objective, " +
-          "which is the intended behaviour of the baseline arm and is why that arm additionally " +
-          "pins its own copy of the pre-repair code rather than relying on the checkout.",
+          `\`${git.remote}\`, branch \`${git.branch}\`, commit \`${git.commit}\`. That commit is ` +
+          "the *repaired* state: it contains the two source changes listed verbatim in " +
+          "[[sec:appG]] (`utils/nodeGraph.js` and `utils/pathfinder.js`) together with the " +
+          "`experiments/` and `temp_report/` trees that produce every result and figure here. The " +
+          "*pre-repair* state analysed as the baseline arm throughout [[sec:results]] is its parent, " +
+          "commit `43084e8` (\"Strict navScore use; eliminate reversing\"), which was the submission " +
+          "at the technical checkpoint. The baseline arm does not depend on checking that commit " +
+          "out: it pins its own verbatim copy of the pre-repair scorer and loader in " +
+          "`experiments/harness/legacyRouteDiscovery.js`, so both arms are reproducible from the " +
+          "repaired working tree alone.",
       },
     ],
   });
@@ -2375,7 +2377,7 @@ return best genome seen`,
         label: "Results traceable.",
         text:
           "Every numeric value in this report is read programmatically from the JSON in " +
-          "`experiments/results/` by `report/build.js`; none is transcribed by hand. Regenerating " +
+          "`experiments/results/` by `temp_report/build.js`; none is transcribed by hand. Regenerating " +
           "the results and rebuilding the report updates the text automatically.",
       },
     ],
@@ -2405,7 +2407,7 @@ node experiments/runExperiments.js
 node experiments/makeFigures.js
 
 # 5. Rebuild this report (HTML, PDF and LaTeX source)
-node report/build.js`,
+node temp_report/build.js`,
   });
   p(
     "`--smoke` runs a reduced configuration in under a minute for a quick end-to-end check, and " +
@@ -2446,7 +2448,7 @@ node report/build.js`,
       ["`experiments/datasetStats.js`", "Exploratory analysis of the ingested world"],
       ["`experiments/makeFigures.js`", "Renders every figure in this report from the results"],
       ["`experiments/results/*.json`", "All raw results"],
-      ["`report/content.js`", "This report's text and its data bindings"],
+      ["`temp_report/content.js`", "This report's text and its data bindings"],
     ],
   });
 

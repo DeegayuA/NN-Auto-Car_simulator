@@ -2,17 +2,18 @@
  * build.js — Assemble the final report.
  *
  * Loads every result file produced by the experiment protocol, hands them to
- * report/content.js (which is where the prose lives), and emits:
+ * temp_report/content.js (which is where the prose lives), and emits:
  *
- *   report/final_report.html   print-ready two-column HTML
- *   report/final_report.pdf    the submitted artefact, via headless Chrome
- *   report/final_report.tex    IEEEtran source for recompilation
- *   report/figures/*.pdf       vector figures for the LaTeX route
+ *   temp_report/final_report.html   print-ready two-column HTML
+ *   reports/final_report_new_ieee.pdf    IEEE two-column, via headless Chrome
+ *   temp_report/final_report.tex    IEEEtran source for recompilation
+ *   reports/final_report_new_normal.pdf  plain single-column report
+ *   temp_report/figures/*.pdf       vector figures for the LaTeX route
  *
  * Every numeric value in the report is derived here or inside content.js from
  * the JSON in experiments/results/ — none is typed by hand.
  *
- * Usage:  node report/build.js [--no-pdf]
+ * Usage:  node temp_report/build.js [--no-pdf]
  */
 const fs = require("fs");
 const os = require("os");
@@ -20,15 +21,26 @@ const path = require("path");
 const { execFileSync } = require("child_process");
 const { renderHtml } = require("./renderHtml");
 const { renderTex } = require("./renderTex");
+const { renderReport } = require("./renderReport");
 const { buildContent } = require("./content");
 
 const ROOT = path.resolve(__dirname, "..");
 const RESULTS = path.join(ROOT, "experiments", "results");
 const FIGS = path.join(ROOT, "experiments", "figures");
-const OUT = __dirname;
+const OUT = __dirname; // working files: HTML, LaTeX source, figure PDFs
+const DELIVER = path.join(ROOT, "reports"); // the two submitted PDFs
+
+// Internal build name -> delivered filename.
+const DELIVERED = {
+  final_report: "final_report_new_ieee.pdf",
+  final_report_2: "final_report_new_normal.pdf",
+};
 
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 const NO_PDF = process.argv.includes("--no-pdf");
+// --fast: rebuild only the single-column report PDF, skipping the paper
+// layout, the LaTeX source and the per-figure PDF conversions.
+const FAST = process.argv.includes("--fast");
 
 const readJson = (n) => JSON.parse(fs.readFileSync(path.join(RESULTS, n), "utf8"));
 const readSvg = (n) => fs.readFileSync(path.join(FIGS, n), "utf8");
@@ -125,35 +137,51 @@ function main() {
 
   const doc = buildContent(data);
 
-  const html = renderHtml(doc);
-  fs.writeFileSync(path.join(OUT, "final_report.html"), html);
-  console.log("wrote report/final_report.html  " + (html.length / 1024).toFixed(0) + " KB");
+  if (!FAST) {
+    const html = renderHtml(doc);
+    fs.writeFileSync(path.join(OUT, "final_report.html"), html);
+    console.log("wrote temp_report/final_report.html  " + (html.length / 1024).toFixed(0) + " KB");
 
-  const tex = renderTex(doc);
-  fs.writeFileSync(path.join(OUT, "final_report.tex"), tex);
-  console.log("wrote report/final_report.tex   " + (tex.length / 1024).toFixed(0) + " KB");
+    const tex = renderTex(doc);
+    fs.writeFileSync(path.join(OUT, "final_report.tex"), tex);
+    console.log("wrote temp_report/final_report.tex   " + (tex.length / 1024).toFixed(0) + " KB");
+  }
+
+  // Second format: same document, plain single-column report layout. Content
+  // is rebuilt from the same data because the renderers stamp section numbers
+  // onto the block objects.
+  const reportHtml = renderReport(buildContent(data));
+  fs.writeFileSync(path.join(OUT, "final_report_2.html"), reportHtml);
+  console.log("wrote temp_report/final_report_2.html " + (reportHtml.length / 1024).toFixed(0) + " KB");
 
   if (NO_PDF) return;
 
-  fs.mkdirSync(path.join(OUT, "figures"), { recursive: true });
-  let n = 0;
-  for (const f of Object.keys(data.svg)) if (svgToPdf(f)) n++;
-  console.log(`wrote report/figures/*.pdf      ${n} figures`);
+  if (!FAST) {
+    fs.mkdirSync(path.join(OUT, "figures"), { recursive: true });
+    let n = 0;
+    for (const f of Object.keys(data.svg)) if (svgToPdf(f)) n++;
+    console.log(`wrote temp_report/figures/*.pdf ${n} figures`);
+  }
 
-  const pdf = path.join(OUT, "final_report.pdf");
-  execFileSync(
-    CHROME,
-    [
-      "--headless",
-      "--disable-gpu",
-      "--no-sandbox",
-      "--no-pdf-header-footer",
-      `--print-to-pdf=${pdf}`,
-      "file://" + path.join(OUT, "final_report.html"),
-    ],
-    { stdio: "ignore" }
-  );
-  console.log(`wrote report/final_report.pdf   ${(fs.statSync(pdf).size / 1024).toFixed(0)} KB`);
+  fs.mkdirSync(DELIVER, { recursive: true });
+  for (const name of FAST ? ["final_report_2"] : ["final_report", "final_report_2"]) {
+    const pdf = path.join(DELIVER, DELIVERED[name]);
+    execFileSync(
+      CHROME,
+      [
+        "--headless",
+        "--disable-gpu",
+        "--no-sandbox",
+        "--no-pdf-header-footer",
+        `--print-to-pdf=${pdf}`,
+        "file://" + path.join(OUT, `${name}.html`),
+      ],
+      { stdio: "ignore" }
+    );
+    console.log(
+      `wrote reports/${DELIVERED[name]}   ${(fs.statSync(pdf).size / 1024).toFixed(0)} KB`
+    );
+  }
 }
 
 main();

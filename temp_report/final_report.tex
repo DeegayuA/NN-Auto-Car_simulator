@@ -338,16 +338,16 @@ This front-end matters to the argument of the report in one specific way. It is 
 \label{fig:screenshot}
 \end{figure}
 
-Fig.~\ref{fig:neuro} shows the network visualiser in detail. It is the component that best illustrates the transparency argument made in Section~\ref{sec:related}: the five input nodes are labelled with their sensor index, the two hidden layers and the four outputs are drawn with their live activation state, and every connection is drawn with a thickness proportional to how much that weight has changed since the start of the generation. Nothing in the network is hidden behind an abstraction.
-
-The instrumentation panels in the same session read generation 10, six of one hundred individuals still alive, and a peak fitness of 16,384 px against the map's longest reachable route distance of 17,822 px — an independent confirmation, from the interactive build rather than the harness, that the repaired objective produces agents which traverse most of the reachable network. Every metric on those panels nonetheless describes the current best individual or the population size; none describes the dispersion of fitness within the generation, which is exactly the quantity that would have exposed the defect and is the omission analysed in Section~\ref{sec:discussion}.
-
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{figures/neural_panel.png}
 \caption{The live network visualiser at the same instant, showing the 5-12-10-4 topology with sensor inputs S1 to S5 at the bottom and the four actuator outputs (forward, left, right, reverse) at the top. Filled nodes are active. Connection thickness encodes how much that weight has changed since the start of the generation rather than its absolute value, so the single heavy magenta edge from sensor S2 is the connection this generation's mutation has moved furthest — here a strongly inhibitory link from the left-of-centre beam.}
 \label{fig:neuro}
 \end{figure}
+
+Fig.~\ref{fig:neuro} shows the network visualiser in detail. It is the component that best illustrates the transparency argument made in Section~\ref{sec:related}: the five input nodes are labelled with their sensor index, the two hidden layers and the four outputs are drawn with their live activation state, and every connection is drawn with a thickness proportional to how much that weight has changed since the start of the generation. Nothing in the network is hidden behind an abstraction.
+
+The instrumentation panels in the same session read generation 10, six of one hundred individuals still alive, and a peak fitness of 16,384 px against the map's longest reachable route distance of 17,822 px — an independent confirmation, from the interactive build rather than the harness, that the repaired objective produces agents which traverse most of the reachable network. Every metric on those panels nonetheless describes the current best individual or the population size; none describes the dispersion of fitness within the generation, which is exactly the quantity that would have exposed the defect and is the omission analysed in Section~\ref{sec:discussion}.
 
 \subsection{Computational complexity}
 
@@ -775,7 +775,7 @@ NE-D vs P-controller & 2,646 & 908 & 61 & 3.76 & 0.000 & 0.69 & large \\
 NE-D vs Pure pursuit (oracle) & 2,646 & 2,312 & 169 & 0.84 & 0.402 & 0.15 & small \\
 \bottomrule
 \end{tabular}
-\\[2pt]\parbox{\linewidth}{\scriptsize Mann–Whitney U on per-pose means of peak route progress, tie-corrected normal approximation, two-sided. A positive Cliff's delta favours NE-D. No multiple-comparison correction is applied; see the caveat in Section VIII.}
+\\[2pt]\parbox{\linewidth}{\scriptsize Mann–Whitney U on per-pose means of peak route progress, tie-corrected normal approximation, two-sided. A positive Cliff's delta favours NE-D. No multiple-comparison correction is applied; see the caveat in Section~\ref{sec:protocol}.}
 \end{table*}
 
 \subsection{Per-pose behaviour and the generalisation gap}
@@ -845,14 +845,14 @@ The single most consequential number in the whole study is the collision rate of
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_termination}
-\caption{Termination cause by controller. Survival to the frame budget is the only outcome representing success; stagnation and reversal terminations reflect the behavioural rules described in Section VI.}
+\caption{Termination cause by controller. Survival to the frame budget is the only outcome representing success; stagnation and reversal terminations reflect the behavioural rules described in Section~\ref{sec:method}.}
 \label{fig:termination}
 \end{figure*}
 
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_traj}
-\caption{Single-episode trajectories from the held-out pose at which the two controllers disagree most. From an identical start, the tuned reactive heuristic circles a block and is terminated by the stagnation rule, while the evolved champion continues along the corridor and survives to the frame budget. Both traces are one seed, so the distances shown are individual episodes rather than the seed-averaged pose means reported in Table X.}
+\caption{Single-episode trajectories from the held-out pose at which the two controllers disagree most. From an identical start, the tuned reactive heuristic circles a block and is terminated by the stagnation rule, while the evolved champion continues along the corridor and survives to the frame budget. Both traces are one seed, so the distances shown are individual episodes rather than the seed-averaged pose means reported in Table~\ref{tab:perpose}.}
 \label{fig:traj}
 \end{figure*}
 
@@ -1110,7 +1110,7 @@ This appendix is the checklist required by the capstone guide. Each item states 
 \item[$\boxtimes$] \textbf{Dependencies listed.} There are none, and that absence is itself the dependency statement. The browser application uses no libraries; the evaluation harness uses only the Node.js standard library (\texttt{fs}, \texttt{path}, \texttt{vm}, \texttt{os}, \texttt{child\_process}). No \texttt{requirements.txt} or \texttt{environment.yml} is applicable. Node.js v24.16.0 or newer is sufficient.
 \item[$\boxtimes$] \textbf{Hardware specified.} Apple M5, 10 logical cores, 16 GB RAM, darwin arm64. Execution is single-threaded and CPU-only; no GPU is used anywhere in this project, because the models are hand-written and gradient-free. The full protocol completes in 27.4 minutes.
 \item[$\boxtimes$] \textbf{Random seeds.} The master seed is 2026; the per-run seeds are 11, 22, 33, 44, 55. A mulberry32 generator (\texttt{experiments/harness/rng.js}) is installed in place of \texttt{Math.random} inside the simulation context, so weight initialisation, mutation, selection, pose sampling and bootstrap resampling are all deterministic given the seed. Pose sampling uses the master seed exclusive-ORed with 0x5eed; bootstrap resampling uses it exclusive-ORed with 0xb007.
-\item[$\boxtimes$] \textbf{Code available.} \texttt{https://github.com/DeegayuA/NN-Auto-Car\_simulator.git}, branch \texttt{main}. The last commit before this report is \texttt{43084e8}, which is the \emph{pre-repair} state analysed as the baseline arm throughout Section~\ref{sec:results}. The repair itself consists of the two source changes listed verbatim in Section~\ref{sec:appG} (\texttt{utils/nodeGraph.js} and \texttt{utils/pathfinder.js}), together with the \texttt{experiments/} and \texttt{report/} trees that produce every result and figure here. A reader who checks out the recorded commit alone will reproduce the degenerate objective, which is the intended behaviour of the baseline arm and is why that arm additionally pins its own copy of the pre-repair code rather than relying on the checkout.
+\item[$\boxtimes$] \textbf{Code available.} \texttt{https://github.com/DeegayuA/NN-Auto-Car\_simulator.git}, branch \texttt{main}, commit \texttt{85ebddc}. That commit is the \emph{repaired} state: it contains the two source changes listed verbatim in Section~\ref{sec:appG} (\texttt{utils/nodeGraph.js} and \texttt{utils/pathfinder.js}) together with the \texttt{experiments/} and \texttt{temp\_report/} trees that produce every result and figure here. The \emph{pre-repair} state analysed as the baseline arm throughout Section~\ref{sec:results} is its parent, commit \texttt{43084e8} ("Strict navScore use; eliminate reversing"), which was the submission at the technical checkpoint. The baseline arm does not depend on checking that commit out: it pins its own verbatim copy of the pre-repair scorer and loader in \texttt{experiments/harness/legacyRouteDiscovery.js}, so both arms are reproducible from the repaired working tree alone.
 \end{itemize}
 
 \subsection{Data}
@@ -1127,7 +1127,7 @@ This appendix is the checklist required by the capstone guide. Each item states 
 \item[$\boxtimes$] \textbf{Hyperparameters.} Listed in full in Table~\ref{tab:hyper}. There is no learning rate or batch size because the optimiser is a genetic algorithm; the analogous quantities are population size (60), generation count (30), mutation rate (0.15), elite count (2) and tournament size (3). Baseline hyperparameters and their search grids are in Table~\ref{tab:tuning}.
 \item[$\boxtimes$] \textbf{Architecture.} Fully specified: a feed-forward network of widths 5–12–10–4 with logistic activations thresholded at 0.5, 246 parameters, implemented in \texttt{simulation/brainModel.js}. Forward propagation is Equation (4); the ablation over widths is in Table~\ref{tab:ablation}.
 \item[$\boxtimes$] \textbf{Determinism verified, not assumed.} \texttt{experiments/verifyHarness.js} asserts three properties empirically: an episode replayed under one seed is bit-identical across 3 repetitions; a training run under one seed reproduces its entire fitness history byte-for-byte; and the spatial index used to accelerate evaluation is behaviour-preserving, confirmed by 8 of 8 paired trajectories matching exactly against an unculled control. All three currently pass.
-\item[$\boxtimes$] \textbf{Results traceable.} Every numeric value in this report is read programmatically from the JSON in \texttt{experiments/results/} by \texttt{report/build.js}; none is transcribed by hand. Regenerating the results and rebuilding the report updates the text automatically.
+\item[$\boxtimes$] \textbf{Results traceable.} Every numeric value in this report is read programmatically from the JSON in \texttt{experiments/results/} by \texttt{temp\_report/build.js}; none is transcribed by hand. Regenerating the results and rebuilding the report updates the text automatically.
 \end{itemize}
 
 \section*{Appendix B: How to Reproduce}
@@ -1151,7 +1151,7 @@ node experiments/runExperiments.js
 node experiments/makeFigures.js
 
 # 5. Rebuild this report (HTML, PDF and LaTeX source)
-node report/build.js
+node temp_report/build.js
 \end{verbatim}
 
 \texttt{--smoke} runs a reduced configuration in under a minute for a quick end-to-end check, and \texttt{--only=E1,E3} restricts execution to named experiments. The interactive simulator itself needs no build step: serve the repository root over HTTP and open \texttt{index.html}.
@@ -1179,7 +1179,7 @@ Path & Role \\
 \texttt{experiments/datasetStats.js} & Exploratory analysis of the ingested world \\
 \texttt{experiments/makeFigures.js} & Renders every figure in this report from the results \\
 \texttt{experiments/results/*.json} & All raw results \\
-\texttt{report/content.js} & This report's text and its data bindings \\
+\texttt{temp\_report/content.js} & This report's text and its data bindings \\
 \bottomrule
 \end{tabular}
 \end{table}
